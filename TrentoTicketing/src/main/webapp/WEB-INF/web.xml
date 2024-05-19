@@ -7,4 +7,53 @@
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
+
+
+    <servlet>
+        <servlet-name>ValidationLogin</servlet-name>
+        <servlet-class>web.group05.trentoticketing.Servlet.ValidationLogin</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ValidationLogin</servlet-name>
+        <url-pattern>/ValidationLogin</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Logout</servlet-name>
+        <servlet-class>web.group05.trentoticketing.Servlet.Logout</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Logout</servlet-name>
+        <url-pattern>/Logout</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SingUp</servlet-name>
+        <servlet-class>web.group05.trentoticketing.Servlet.SingUp</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SingUp</servlet-name>
+        <url-pattern>/SingUp</url-pattern>
+    </servlet-mapping>
+
+
+    <filter>
+        <filter-name>AutenticationFilter</filter-name>
+        <filter-class>web.group05.trentoticketing.Filters.AuthenticationFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AutenticationFilter</filter-name>
+        <url-pattern>/user_logged_test.html</url-pattern>
+        <url-pattern>/admin_test.html</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>AdminFilter</filter-name>
+        <filter-class>web.group05.trentoticketing.Filters.AdminFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AdminFilter</filter-name>
+        <url-pattern>/admin_test.html</url-pattern>
+    </filter-mapping>
+
 </web-app>
