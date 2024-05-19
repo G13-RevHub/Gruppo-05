@@ -21,7 +21,6 @@ public class AdminFilter implements Filter {
         HttpServletRequest hreq = (HttpServletRequest) request;
         HttpSession session = hreq.getSession(false);
 
-        //if (session != null  && session.getAttribute("user") != null && ((User)session.getAttribute("user")).getIs_admin()) {
         if (((User)session.getAttribute("user")).getIs_admin()) {
             chain.doFilter(request, response);
         } else {

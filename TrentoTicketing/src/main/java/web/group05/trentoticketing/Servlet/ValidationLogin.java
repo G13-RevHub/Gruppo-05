@@ -70,11 +70,15 @@ public class ValidationLogin extends HttpServlet {
         }
 
         if (user == null) { // creadenziali errate
-            request.getRequestDispatcher("./login.html").include(request, response);
+            request.getRequestDispatcher("./login_failed.html").include(request, response);
         } else {
             session = request.getSession();
             session.setAttribute("user", user);
-            request.getRequestDispatcher("./index.html").forward(request, response);
+            //request.getRequestDispatcher("./index.html").forward(request, response);
+            // gestione caso cookie disabilitati
+            String s = response.encodeRedirectURL("./index.html");
+            response.sendRedirect(s);
+            //request.getRequestDispatcher(response.encodeRedirectURL("./destination.html")).forward(request, response); // nelle altre pagine
         }
     }
 
