@@ -1,1 +1,8 @@
 Come componenti bootstrap potremmo usare: navbar, bottoni
+
+
+
+comandi utili per derby:
+java -jar %DERBY_HOME%/lib/derbyrun.jar server start
+java -jar %DERBY_HOME%/lib/derbyrun.jar ij
+CONNECT 'jdbc:derby://localhost:1527/TrentoTicketing;create=true';

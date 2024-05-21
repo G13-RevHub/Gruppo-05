@@ -1,6 +1,7 @@
 package web.group05.trentoticketing.Data;
 
-import web.group05.trentoticketing.Data.Event_Type;
+import web.group05.trentoticketing.Data.Enums.Event_Location;
+import web.group05.trentoticketing.Data.Enums.Event_Type;
 
 import java.sql.Time;
 import java.util.Date;

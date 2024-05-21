@@ -6,7 +6,7 @@ create table utente
     nome         varchar(20) not null,
     cognome      varchar(20) not null,
     data_nascita date        not null,
-    email        varchar(45) not null unique,
+    email        varchar(45) not null,
     telefono     char(10)    not null,
     username     varchar(20) not null primary key,
     password     varchar(45) not null,

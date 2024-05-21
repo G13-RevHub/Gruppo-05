@@ -3,12 +3,14 @@ package web.group05.trentoticketing.Servlet;
 import web.group05.trentoticketing.Data.User;
 
 import javax.servlet.*;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.sql.*;
 import java.util.Date;
 
 
+@WebServlet(name = "ValidationLogin", value = "/ValidationLogin")
 public class ValidationLogin extends HttpServlet {
     Connection connection = null;
 

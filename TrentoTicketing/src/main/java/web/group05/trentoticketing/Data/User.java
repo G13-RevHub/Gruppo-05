@@ -1,8 +1,9 @@
 package web.group05.trentoticketing.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class User {
+public class User implements Serializable {
     private String nome;
     private String cognome;
     private Date data_nascita;

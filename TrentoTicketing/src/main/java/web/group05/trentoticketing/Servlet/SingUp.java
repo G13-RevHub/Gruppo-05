@@ -1,14 +1,13 @@
 package web.group05.trentoticketing.Servlet;
 
-import web.group05.trentoticketing.Data.User;
-
 import javax.servlet.*;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.sql.*;
-import java.util.Date;
 
 
+@WebServlet(name = "SingUp", value = "/SingUp")
 public class SingUp extends HttpServlet {
     Connection connection = null;
 
@@ -55,20 +54,25 @@ public class SingUp extends HttpServlet {
         try {
             statement = connection.createStatement();
             String query = "INSERT INTO UTENTE (NOME, COGNOME, DATA_NASCITA, EMAIL, TELEFONO, USERNAME, PASSWORD) VALUES (" +
-                    "'" + request.getParameter("nome") + "'" +
-                    "'" + request.getParameter("cognome") + "'" +
-                    "'" + request.getParameter("data_nascita") + "'" +
-                    "'" + request.getParameter("email") + "'" +
-                    "'" + request.getParameter("telefono") + "'" +
-                    "'" + request.getParameter("username") + "'" +
+                    "'" + request.getParameter("nome") + "', " +
+                    "'" + request.getParameter("cognome") + "', " +
+                    "'" + request.getParameter("data_nascita") + "', " +
+                    "'" + request.getParameter("email") + "', " +
+                    "'" + request.getParameter("telefono") + "', " +
+                    "'" + request.getParameter("username") + "', " +
                     "'" + request.getParameter("password") + "'" +
                     ")";
-            statement.executeQuery(query);
-        } catch (SQLException e) {
-            throw new UnavailableException("SingUp.doFilter(  ) SQLException: " + e.getMessage(  ));
-        }
+            statement.executeUpdate(query);
 
-        request.getRequestDispatcher("./login.html").include(request, response);
+            request.getRequestDispatcher("./registration_success.html").include(request, response);
+        } catch (SQLException e) { // gestisco il caso di utente che esiste già?
+            if (e.getErrorCode() == 30000) { // gestisco il caso di utente che esiste già
+                request.getRequestDispatcher("./singup_duplicate_user.html").include(request, response);
+            } else {
+                System.out.println("SingUp.doFilter(  ) SQLException: " + e.getMessage(  ));
+                throw new UnavailableException("SingUp.doFilter(  ) SQLException: " + e.getMessage(  ));
+            }
+        }
     }
 
     // non metto la get dato che passo dati sensibili
