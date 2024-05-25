@@ -24,7 +24,7 @@ public class AdminFilter implements Filter {
         if (((User)session.getAttribute("user")).getIs_admin()) {
             chain.doFilter(request, response);
         } else {
-            request.getRequestDispatcher("./login.html").forward(request, response);
+            request.getRequestDispatcher("./account/login.html").forward(request, response);
         }
     }
 }

@@ -11,9 +11,10 @@ public class User implements Serializable {
     private String telefono;
     private String username;
     private boolean is_admin;
+    private int bought_tickets;
 
     public User() { }
-    public User(String n, String c, Date d, String e, String t, String u, boolean i) {
+    public User(String n, String c, Date d, String e, String t, String u, boolean i, int b) {
         nome = n;
         cognome = c;
         data_nascita = d;
@@ -21,6 +22,7 @@ public class User implements Serializable {
         telefono = t;
         username = u;
         is_admin = i;
+        bought_tickets = b;
     }
 
     public String getNome() { return nome; }
@@ -30,6 +32,7 @@ public class User implements Serializable {
     public String getTelefono() { return telefono; }
     public String getUsername() { return username; }
     public boolean getIs_admin() { return is_admin; }
+    public int getBought_tickets() { return bought_tickets; }
 
     // non so se voglio avere dei setter, dato che l'unico modo di modificare un user è agendo sul DB con una query
 }

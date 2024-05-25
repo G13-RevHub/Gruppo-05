@@ -1,4 +1,4 @@
-package web.group05.trentoticketing.Servlet;
+package web.group05.trentoticketing.Servlet.Account;
 
 import web.group05.trentoticketing.Data.User;
 
@@ -65,20 +65,21 @@ public class ValidationLogin extends HttpServlet {
             while (results.next()) {
                 user = new User(results.getString(1), results.getString(2), results.getDate(3),
                         results.getString(4), results.getString(5), results.getString(6),
-                        results.getBoolean(8));
+                        results.getBoolean(8), results.getInt(9));
             }
         } catch (SQLException e) {
             throw new UnavailableException("ValidationLogin.doFilter(  ) SQLException: " + e.getMessage(  ));
         }
 
         if (user == null) { // creadenziali errate
-            request.getRequestDispatcher("./login_failed.html").include(request, response);
+            //request.getRequestDispatcher("./account/login_failed.html").include(request, response);
+            response.sendRedirect("./account/login_failed.html");
         } else {
             session = request.getSession();
             session.setAttribute("user", user);
             //request.getRequestDispatcher("./index.html").forward(request, response);
             // gestione caso cookie disabilitati
-            String s = response.encodeRedirectURL("./index.html");
+            String s = response.encodeRedirectURL("./account/index.html");
             response.sendRedirect(s);
             //request.getRequestDispatcher(response.encodeRedirectURL("./destination.html")).forward(request, response); // nelle altre pagine
         }

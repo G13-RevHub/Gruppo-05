@@ -1,7 +1,6 @@
 package web.group05.trentoticketing.Data.Enums;
 
 public enum Event_Location {
-    NULL,
     TRENTO,
     POVO,
     ROVERETO,

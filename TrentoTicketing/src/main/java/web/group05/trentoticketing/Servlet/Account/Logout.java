@@ -1,4 +1,4 @@
-package web.group05.trentoticketing.Servlet;
+package web.group05.trentoticketing.Servlet.Account;
 
 import javax.servlet.*;
 import javax.servlet.http.*;

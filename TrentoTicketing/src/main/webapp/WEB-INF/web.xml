@@ -11,7 +11,7 @@
 
     <servlet>
         <servlet-name>ValidationLogin</servlet-name>
-        <servlet-class>web.group05.trentoticketing.Servlet.ValidationLogin</servlet-class>
+        <servlet-class>web.group05.trentoticketing.Servlet.Account.ValidationLogin</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ValidationLogin</servlet-name>
@@ -20,7 +20,7 @@
 
     <servlet>
         <servlet-name>Logout</servlet-name>
-        <servlet-class>web.group05.trentoticketing.Servlet.Logout</servlet-class>
+        <servlet-class>web.group05.trentoticketing.Servlet.Account.Logout</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Logout</servlet-name>
@@ -29,7 +29,7 @@
 
     <servlet>
         <servlet-name>SingUp</servlet-name>
-        <servlet-class>web.group05.trentoticketing.Servlet.SingUp</servlet-class>
+        <servlet-class>web.group05.trentoticketing.Servlet.Account.SingUp</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>SingUp</servlet-name>
@@ -45,6 +45,9 @@
         <filter-name>AutenticationFilter</filter-name>
         <url-pattern>/user_logged_test.html</url-pattern>
         <url-pattern>/admin_test.html</url-pattern>
+
+        <url-pattern>/SeeUsers</url-pattern>
+        <url-pattern>/HandleEvents</url-pattern>
     </filter-mapping>
 
     <filter>
@@ -54,6 +57,8 @@
     <filter-mapping>
         <filter-name>AdminFilter</filter-name>
         <url-pattern>/admin_test.html</url-pattern>
+        <url-pattern>/SeeUsers</url-pattern>
+        <url-pattern>/HandleEvents</url-pattern>
     </filter-mapping>
 
 </web-app>
