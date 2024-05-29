@@ -39,7 +39,8 @@ public class Event implements Serializable {
     private Ticket ticket;
     private int tickets_sold;
 
-    public Event(String name, Date date, Time time, Event_Type type, Event_Location location, Ticket ticket, int tickets_sold){
+    public Event(int id, String name, Date date, Time time, Event_Type type, Event_Location location, Ticket ticket, int tickets_sold){
+        this.id = id;
         this.name = name;
         this.date = date;
         this.time = time;
@@ -50,6 +51,7 @@ public class Event implements Serializable {
     }
 
     public Event() {
+        this.id = 0;
         this.name = "";
         this.date = new Date(0);
         this.time = new Time(0);
@@ -65,5 +67,6 @@ public class Event implements Serializable {
     public Time getTime() { return this.time; }
     public Event_Type getType() { return this.type; }
     public Event_Location getLocation() { return this.location; }
+    public Ticket getTicket() { return this.ticket; }
     public int getTickets_sold() { return this.tickets_sold; }
 }

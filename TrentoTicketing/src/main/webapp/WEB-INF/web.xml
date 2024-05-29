@@ -8,7 +8,7 @@
         <session-timeout>30</session-timeout>
     </session-config>
 
-
+    <!-- Mapping -->
     <servlet>
         <servlet-name>ValidationLogin</servlet-name>
         <servlet-class>web.group05.trentoticketing.Servlet.Account.ValidationLogin</servlet-class>
@@ -37,6 +37,7 @@
     </servlet-mapping>
 
 
+    <!-- Filtri -->
     <filter>
         <filter-name>AutenticationFilter</filter-name>
         <filter-class>web.group05.trentoticketing.Filters.AuthenticationFilter</filter-class>
@@ -45,9 +46,9 @@
         <filter-name>AutenticationFilter</filter-name>
         <url-pattern>/user_logged_test.html</url-pattern>
         <url-pattern>/admin_test.html</url-pattern>
-
         <url-pattern>/SeeUsers</url-pattern>
         <url-pattern>/HandleEvents</url-pattern>
+        <url-pattern>/CreateEvent</url-pattern>
     </filter-mapping>
 
     <filter>
@@ -59,6 +60,7 @@
         <url-pattern>/admin_test.html</url-pattern>
         <url-pattern>/SeeUsers</url-pattern>
         <url-pattern>/HandleEvents</url-pattern>
+        <url-pattern>/CreateEvent</url-pattern>
     </filter-mapping>
 
 </web-app>

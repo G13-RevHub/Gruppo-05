@@ -8,7 +8,7 @@ public class Ticket {
     public static String TicketTypeToString(TicketType tt) {
         switch (tt) {
             case POLTRONA: return "Poltrona";
-            case IN_PIEDI:return "In Piedi";
+            case IN_PIEDI: return "In Piedi";
             default: return null;
         }
     }

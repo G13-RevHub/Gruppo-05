@@ -7,7 +7,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.sql.*;
-import java.util.Date;
 
 
 @WebServlet(name = "ValidationLogin", value = "/ValidationLogin")

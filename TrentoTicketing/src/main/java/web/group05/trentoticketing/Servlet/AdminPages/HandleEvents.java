@@ -1,13 +1,19 @@
 package web.group05.trentoticketing.Servlet.AdminPages;
 
+import web.group05.trentoticketing.Data.Enums.Event_Location;
+import web.group05.trentoticketing.Data.Enums.Event_Type;
 import web.group05.trentoticketing.Data.Event;
+import web.group05.trentoticketing.Data.Ticket;
+import web.group05.trentoticketing.Data.User;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 @WebServlet(name = "HandleEvents", value = "/HandleEvents")
@@ -49,16 +55,48 @@ public class HandleEvents extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Statement statement = null;
         ResultSet results = null;
+        ArrayList<Event> events = new ArrayList<>();
         try {
             statement = connection.createStatement();
             String query = "SELECT * FROM EVENTO";
             results = statement.executeQuery(query);
-            ArrayList<Event> events = new ArrayList<>();
             while (results.next()) {
-                events.add(new Event());
+                events.add(new Event(results.getInt(1), results.getString(2), results.getDate(3),
+                        results.getTime(4), Event_Type.values()[results.getInt(5)],
+                        Event_Location.values()[results.getInt(6)], new Ticket(results.getFloat(7),
+                        Ticket.TicketType.values()[results.getInt(8)]), results.getInt(9)));
             }
         } catch (SQLException e) {
             throw new UnavailableException("ValidationLogin.doFilter(  ) SQLException: " + e.getMessage(  ));
+        }
+
+        response.setContentType("text/html");
+        response.setCharacterEncoding("UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            out.println("<!DOCTYPE html>");
+            out.println("<html lang=\"en\">");
+            out.println("<head><title>Lista Eventi</title></head><body>");
+            out.println("<h1>Eventi</h1>");
+            out.println("<a href=\"\\CreateEvent\">Crea un evento</a>");
+            if (events.size() == 0) {
+                out.println("<p>Nessun evento presente al momento</p>");
+            } else {
+                out.println("<table><thead><tr><td>Nome</td><td>Data</td><td>Ora</td><td>Tipo</td><td>Luogo</td><td>Ticket</td><td>Biglietti Venduti</td></tr><td></td></thead><tbody>");
+                for (Event e: events) {
+                    out.println("<tr>");
+                    out.println("<td>" + e.getName() + "</td>");
+                    out.println("<td>" + e.getDate() + "</td>");
+                    out.println("<td>" + e.getTime() + "</td>");
+                    out.println("<td>" + Event.EventTypeToString(e.getType()) + "</td>");
+                    out.println("<td>" + Event.EventLocationToString(e.getLocation()) + "</td>");
+                    out.println("<td>" + e.getTicket().getPrice() + " € - " + Ticket.TicketTypeToString(e.getTicket().getType()) + "</td>");
+                    out.println("<td>" + e.getTickets_sold() + "</td>");
+                    out.println("<td><button>Elimina</button></td>");
+                    out.println("</tr>");
+                }
+                out.println("</tbody></table>");
+            }
+            out.println("</body></html>");
         }
     }
 
