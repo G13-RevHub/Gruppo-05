@@ -36,6 +36,15 @@
         <url-pattern>/SingUp</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>CreateEventHandler</servlet-name>
+        <servlet-class>web.group05.trentoticketing.Servlet.Handler.CreateEventHandler</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CreateEventHandler</servlet-name>
+        <url-pattern>/CreateEventHandler</url-pattern>
+    </servlet-mapping>
+
 
     <!-- Filtri -->
     <filter>
@@ -49,6 +58,7 @@
         <url-pattern>/SeeUsers</url-pattern>
         <url-pattern>/HandleEvents</url-pattern>
         <url-pattern>/CreateEvent</url-pattern>
+        <url-pattern>/CreateEventHandler</url-pattern>
     </filter-mapping>
 
     <filter>
@@ -61,6 +71,7 @@
         <url-pattern>/SeeUsers</url-pattern>
         <url-pattern>/HandleEvents</url-pattern>
         <url-pattern>/CreateEvent</url-pattern>
+        <url-pattern>/CreateEventHandler</url-pattern>
     </filter-mapping>
 
 </web-app>

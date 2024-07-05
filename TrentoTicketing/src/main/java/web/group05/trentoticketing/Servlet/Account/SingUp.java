@@ -64,15 +64,15 @@ public class SingUp extends HttpServlet {
                     ")";
             statement.executeUpdate(query);
 
-            //request.getRequestDispatcher("./account/registration_success.html").include(request, response);
-            response.sendRedirect("./account/registration_success.html");
+            request.getRequestDispatcher("./account/registration_success.html").include(request, response);
+            //response.sendRedirect("./account/registration_success.html");
         } catch (SQLException e) { // gestisco il caso di utente che esiste già?
             if (e.getErrorCode() == 30000) { // gestisco il caso di utente che esiste già
-                //request.getRequestDispatcher("./account/singup_duplicate_user.html").include(request, response);
-                response.sendRedirect("./account/singup_duplicate_user.html");
+                request.getRequestDispatcher("./account/singup_duplicate_user.html").include(request, response);
+                //response.sendRedirect("./account/singup_duplicate_user.html");
             } else {
-                System.out.println("SingUp.doFilter(  ) SQLException: " + e.getMessage(  ));
-                throw new UnavailableException("SingUp.doFilter(  ) SQLException: " + e.getMessage(  ));
+                System.out.println("SingUp.doPost() SQLException: " + e.getMessage(  ));
+                throw new UnavailableException("SingUp.doPost() SQLException: " + e.getMessage(  ));
             }
         }
     }

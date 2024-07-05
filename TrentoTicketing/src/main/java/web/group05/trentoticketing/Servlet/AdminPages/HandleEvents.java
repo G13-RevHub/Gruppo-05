@@ -61,13 +61,14 @@ public class HandleEvents extends HttpServlet {
             String query = "SELECT * FROM EVENTO";
             results = statement.executeQuery(query);
             while (results.next()) {
-                events.add(new Event(results.getInt(1), results.getString(2), results.getDate(3),
-                        results.getTime(4), Event_Type.values()[results.getInt(5)],
-                        Event_Location.values()[results.getInt(6)], new Ticket(results.getFloat(7),
-                        Ticket.TicketType.values()[results.getInt(8)]), results.getInt(9)));
+                events.add(new Event(results.getInt("ID"), results.getString("NOME"), results.getDate("DATA"),
+                        results.getTime("ORA"), Event_Type.values()[results.getInt("TIPO")],
+                        Event_Location.values()[results.getInt("LUOGO")], new Ticket(results.getFloat("PREZZO_BIGLIETTO"),
+                        Ticket.TicketType.values()[results.getInt("TIPO_BIGLIETTO")]), results.getInt("BIGLIETTI_VENDUTI")));
             }
         } catch (SQLException e) {
-            throw new UnavailableException("ValidationLogin.doFilter(  ) SQLException: " + e.getMessage(  ));
+            System.out.println("HandleEvent.doGet() SQLException: " + e.getMessage());
+            throw new UnavailableException("HandleEvent.doGet() SQLException: " + e.getMessage());
         }
 
         response.setContentType("text/html");
@@ -77,7 +78,7 @@ public class HandleEvents extends HttpServlet {
             out.println("<html lang=\"en\">");
             out.println("<head><title>Lista Eventi</title></head><body>");
             out.println("<h1>Eventi</h1>");
-            out.println("<a href=\"\\CreateEvent\">Crea un evento</a>");
+            out.println("<a href=\"CreateEvent\">Crea un evento</a>");
             if (events.size() == 0) {
                 out.println("<p>Nessun evento presente al momento</p>");
             } else {

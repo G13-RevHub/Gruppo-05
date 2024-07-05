@@ -76,10 +76,10 @@ public class ValidationLogin extends HttpServlet {
         } else {
             session = request.getSession();
             session.setAttribute("user", user);
-            //request.getRequestDispatcher("./index.html").forward(request, response);
+            request.getRequestDispatcher("./index.html").forward(request, response);
             // gestione caso cookie disabilitati
-            String s = response.encodeRedirectURL("./account/index.html");
-            response.sendRedirect(s);
+            //String s = response.encodeRedirectURL("./account/index.html");
+            //response.sendRedirect(s);
             //request.getRequestDispatcher(response.encodeRedirectURL("./destination.html")).forward(request, response); // nelle altre pagine
         }
     }

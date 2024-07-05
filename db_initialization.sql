@@ -14,7 +14,7 @@ create table utente
     biglietti_aquistati integer not null default 0;
 );
 
-insert into utente (nome, cognome, data_nascita, email, telefono, username, password, is_admin) values
+insert into utente (nome, cognome, data_nascita, email, telefono, username, password, is_admin, biglietti_aquistati) values
 ('admin', 'admin', '11/11/2011', 'admin@tticketing.it', '0123456789', '05nimda!', '05nimda!', true, 0),
 ('Mario', 'Rossi', '11/10/1955', 'mario@bros.jp', '9468126502', 'mario', 'utente!05', false, 0),
 ('Luigi', 'Verdi', '11/10/1980', 'luigi@bros.jp', '9813065009', 'luigi', 'utente!05', false, 0);
@@ -22,7 +22,7 @@ insert into utente (nome, cognome, data_nascita, email, telefono, username, pass
 create table EVENTO
 (
     id                integer primary key,
-    NOME              date              not null,
+    NOME              varchar(30)       not null,
     DATA              date              not null,
     ORA               time              not null,
     TIPO              integer           not null,
