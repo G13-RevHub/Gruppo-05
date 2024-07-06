@@ -22,7 +22,7 @@ public class AuthenticationFilter implements Filter {
         if (session != null && session.getAttribute("user") != null) {
             chain.doFilter(request, response);
         } else {
-            request.getRequestDispatcher("./account/login.html").forward(request, response);
+            request.getRequestDispatcher("account/login.html").forward(request, response);
         }
     }
 }

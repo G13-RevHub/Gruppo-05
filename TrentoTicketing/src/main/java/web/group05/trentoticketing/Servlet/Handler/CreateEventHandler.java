@@ -56,7 +56,6 @@ public class CreateEventHandler extends HttpServlet {
                 id = results.getInt(1) + 1;
             }
 
-
             query = "INSERT INTO EVENTO (ID, NOME, DATA, ORA, TIPO, LUOGO, PREZZO_BIGLIETTO, TIPO_BIGLIETTO) VALUES (" +
                     id + ", " +
                     "'" + request.getParameter("nome") + "', " +

@@ -92,11 +92,19 @@ public class HandleEvents extends HttpServlet {
                     out.println("<td>" + Event.EventLocationToString(e.getLocation()) + "</td>");
                     out.println("<td>" + e.getTicket().getPrice() + " € - " + Ticket.TicketTypeToString(e.getTicket().getType()) + "</td>");
                     out.println("<td>" + e.getTickets_sold() + "</td>");
-                    out.println("<td><button>Elimina</button></td>");
+                    out.println("<td><button onclick=\"deleteItem(" + e.getId() + ")\">Elimina</button></td>");
                     out.println("</tr>");
                 }
                 out.println("</tbody></table>");
             }
+            out.println("<form id=\"delete-form\" method=\"post\" action=\"DeleteEvent\" style=\"display: none;\">" +
+                    "<input type=\"hidden\" name=\"id\" id=\"item-id\">" +
+                    "</form>");
+            out.println("<script>\n" +
+                    "function deleteItem(itemId) {\n" +
+                    "   document.getElementById('item-id').value = itemId;\n" +
+                    "   document.getElementById('delete-form').submit();\n}\n" +
+                    "</script>");
             out.println("</body></html>");
         }
     }

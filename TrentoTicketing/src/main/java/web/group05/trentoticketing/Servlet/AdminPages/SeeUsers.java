@@ -53,15 +53,16 @@ public class SeeUsers extends HttpServlet {
 
         try {
             statement = connection.createStatement();
-            String query = "SELECT NOME, COGNOME, DATA_NASCITA, EMAIL, TELEFONO, USERNAME, BIGLIETTI_AQUISTATI FROM UTENTE WHERE IS_ADMIN = FALSE";
+            String query = "SELECT NOME, COGNOME, DATA_NASCITA, EMAIL, TELEFONO, USERNAME, IS_ADMIN, BIGLIETTI_ACQUISTATI FROM UTENTE WHERE IS_ADMIN = FALSE";
             results = statement.executeQuery(query);
             while (results.next()) {
-                users.add(new User(results.getString(1), results.getString(2), results.getDate(3),
-                        results.getString(4), results.getString(5), results.getString(6),
-                        false, results.getInt(9)));
+                users.add(new User(results.getString("NOME"), results.getString("COGNOME"), results.getDate("DATA_NASCITA"),
+                        results.getString("EMAIL"), results.getString("TELEFONO"), results.getString("USERNAME"),
+                        results.getBoolean("IS_ADMIN"), results.getInt("BIGLIETTI_ACQUISTATI")));
             }
         } catch (SQLException e) {
-            throw new UnavailableException("ValidationLogin.doFilter(  ) SQLException: " + e.getMessage(  ));
+            System.out.println("SeeUsers.doGet() SQLException: " + e.getMessage());
+            throw new UnavailableException("SeeUsers.doGet() SQLException: " + e.getMessage());
         }
 
         response.setContentType("text/html");
@@ -74,6 +75,9 @@ public class SeeUsers extends HttpServlet {
             if (users.size() == 0) {
                 out.println("<p>Nessun utente registrato</p>");
             } else {
+                out.println("<label>" +
+                        "<input type=\"checkbox\" id=\"sort-checkbox\"> Ordina per biglietti acquistati" +
+                        "</label>");
                 out.println("<table><thead><tr><td>Nome</td><td>Cognome</td><td>Nascita</td><td>Email</td><td>Telefono</td><td>Username</td><td>Biglietti Acquistati</td></tr></thead><tbody>");
                 for (User u: users) {
                     out.println("<tr>");
@@ -83,11 +87,32 @@ public class SeeUsers extends HttpServlet {
                     out.println("<td>" + u.getEmail() + "</td>");
                     out.println("<td>" + u.getTelefono() + "</td>");
                     out.println("<td>" + u.getUsername() + "</td>");
-                    out.println("<td>" + u.getBiglietti_aquistati() + "</td>");
+                    out.println("<td data-value=\"" + u.getBiglietti_aquistati() + "\">" + u.getBiglietti_aquistati() + "</td>");
                     out.println("</tr>");
                 }
                 out.println("</tbody></table>");
             }
+            out.println("<script>\n" +
+                    "        document.getElementById('sort-checkbox').addEventListener('change', function () {\n" +
+                    "            const table = document.getElementById('data-table');\n" +
+                    "            const tbody = table.querySelector('tbody');\n" +
+                    "            const rows = Array.from(tbody.querySelectorAll('tr'));\n" +
+                    "            if (this.checked) {\n" +
+                    "                rows.sort((a, b) => {\n" +
+                    "                    const aValue = parseInt(a.querySelector('td[data-value]').dataset.value, 10);\n" +
+                    "                    const bValue = parseInt(b.querySelector('td[data-value]').dataset.value, 10);\n" +
+                    "                    return aValue - bValue;\n" +
+                    "                });\n" +
+                    "            } else {\n" +
+                    "                rows.sort((a, b) => {\n" +
+                    "                    return parseInt(a.querySelector('td[data-value]').dataset.value, 10) -\n" +
+                    "                           parseInt(b.querySelector('td[data-value]').dataset.value, 10);\n" +
+                    "                });\n}\n" +
+                    "            while (tbody.firstChild) {\n" +
+                    "                tbody.removeChild(tbody.firstChild);\n}\n" +
+                    "            rows.forEach(row => tbody.appendChild(row));\n" +
+                    "        });\n" +
+                    "    </script>");
             out.println("</body></html>");
         }
     }

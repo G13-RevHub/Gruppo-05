@@ -45,6 +45,33 @@
         <url-pattern>/CreateEventHandler</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>DeleteEvent</servlet-name>
+        <servlet-class>web.group05.trentoticketing.Servlet.Handler.DeleteEvent</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteEvent</servlet-name>
+        <url-pattern>/DeleteEvent</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UserProfile</servlet-name>
+        <servlet-class>web.group05.trentoticketing.Servlet.AutenticatedPages.UserProfile</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserProfile</servlet-name>
+        <url-pattern>/UserProfile</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DeleteUser</servlet-name>
+        <servlet-class>web.group05.trentoticketing.Servlet.Handler.DeleteUser</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteUser</servlet-name>
+        <url-pattern>/DeleteUser</url-pattern>
+    </servlet-mapping>
+
 
     <!-- Filtri -->
     <filter>
@@ -59,6 +86,9 @@
         <url-pattern>/HandleEvents</url-pattern>
         <url-pattern>/CreateEvent</url-pattern>
         <url-pattern>/CreateEventHandler</url-pattern>
+        <url-pattern>/DeleteEvent</url-pattern>
+        <url-pattern>/UserProfile</url-pattern>
+        <url-pattern>/DeleteUser</url-pattern>
     </filter-mapping>
 
     <filter>
@@ -72,6 +102,7 @@
         <url-pattern>/HandleEvents</url-pattern>
         <url-pattern>/CreateEvent</url-pattern>
         <url-pattern>/CreateEventHandler</url-pattern>
+        <url-pattern>/DeleteEvent</url-pattern>
     </filter-mapping>
 
 </web-app>

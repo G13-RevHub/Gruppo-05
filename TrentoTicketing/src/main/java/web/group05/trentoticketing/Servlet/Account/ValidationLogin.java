@@ -62,21 +62,23 @@ public class ValidationLogin extends HttpServlet {
             String query = "SELECT * FROM UTENTE WHERE USERNAME = '" + request.getParameter("username") + "' AND PASSWORD = '" + request.getParameter("password") + "'";
             results = statement.executeQuery(query);
             while (results.next()) {
-                user = new User(results.getString(1), results.getString(2), results.getDate(3),
-                        results.getString(4), results.getString(5), results.getString(6),
-                        results.getBoolean(8), results.getInt(9));
+                user = new User(results.getString("NOME"), results.getString("COGNOME"), results.getDate("DATA_NASCITA"),
+                        results.getString("EMAIL"), results.getString("TELEFONO"), results.getString("USERNAME"),
+                        results.getBoolean("IS_ADMIN"), results.getInt("BIGLIETTI_ACQUISTATI"));
             }
         } catch (SQLException e) {
-            throw new UnavailableException("ValidationLogin.doFilter(  ) SQLException: " + e.getMessage(  ));
+            System.out.println("ValidationLogin.doPost() SQLException: " + e.getMessage());
+            //throw new UnavailableException("ValidationLogin.doPost() SQLException: " + e.getMessage());
+            request.getRequestDispatcher("account/login_failed.html").forward(request, response);
         }
 
         if (user == null) { // creadenziali errate
             //request.getRequestDispatcher("./account/login_failed.html").include(request, response);
-            response.sendRedirect("./account/login_failed.html");
+            request.getRequestDispatcher("account/login_failed.html").forward(request, response);
         } else {
             session = request.getSession();
             session.setAttribute("user", user);
-            request.getRequestDispatcher("./index.html").forward(request, response);
+            request.getRequestDispatcher("index.html").forward(request, response);
             // gestione caso cookie disabilitati
             //String s = response.encodeRedirectURL("./account/index.html");
             //response.sendRedirect(s);

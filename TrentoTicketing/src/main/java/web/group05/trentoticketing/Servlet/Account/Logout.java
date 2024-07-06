@@ -12,7 +12,7 @@ public class Logout extends HttpServlet {
         HttpSession session = request.getSession(false);
         if (session != null)
             session.invalidate();
-        request.getRequestDispatcher("./index.html").include(request, response);
+        request.getRequestDispatcher("index.html").include(request, response);
     }
 
     @Override
