@@ -53,7 +53,7 @@ public class DeleteUser extends HttpServlet {
         User user = (User)session.getAttribute("user");
 
         if (!Objects.equals(user.getUsername(), request.getParameter("username"))) {
-            request.getRequestDispatcher("index.html").forward(request, response);
+            request.getRequestDispatcher("Home").forward(request, response);
         } else {
             Statement statement = null;
 

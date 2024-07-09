@@ -47,10 +47,9 @@ public class ValidationLogin extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // se esiste, invalido la sessione
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession(true);
         if (session != null) {
             session.removeAttribute("user");
-            session.invalidate();
         }
 
         User user = null;
@@ -78,7 +77,7 @@ public class ValidationLogin extends HttpServlet {
         } else {
             session = request.getSession();
             session.setAttribute("user", user);
-            request.getRequestDispatcher("index.html").forward(request, response);
+            request.getRequestDispatcher("Home").forward(request, response);
             // gestione caso cookie disabilitati
             //String s = response.encodeRedirectURL("./account/index.html");
             //response.sendRedirect(s);

@@ -8,7 +8,38 @@
         <session-timeout>30</session-timeout>
     </session-config>
 
+    <welcome-file-list>
+        <welcome-file>Home</welcome-file>
+    </welcome-file-list>
+
     <!-- Mapping -->
+    <servlet>
+        <servlet-name>Home</servlet-name>
+        <servlet-class>web.group05.trentoticketing.Servlet.Home</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Home</servlet-name>
+        <url-pattern>/Home</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>EventCategoryList</servlet-name>
+        <servlet-class>web.group05.trentoticketing.Servlet.EventCategoryList</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EventCategoryList</servlet-name>
+        <url-pattern>/EventCategoryList</url-pattern>
+    </servlet-mapping>
+    <servlet>
+
+        <servlet-name>EventPage</servlet-name>
+        <servlet-class>web.group05.trentoticketing.Servlet.EventPage</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EventPage</servlet-name>
+        <url-pattern>/EventPage</url-pattern>
+    </servlet-mapping>
+
     <servlet>
         <servlet-name>ValidationLogin</servlet-name>
         <servlet-class>web.group05.trentoticketing.Servlet.Account.ValidationLogin</servlet-class>

@@ -1,6 +1,7 @@
 package web.group05.trentoticketing.Servlet.AdminPages;
 
 import web.group05.trentoticketing.Data.User;
+import web.group05.trentoticketing.Helper.HtmlHelper;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -47,6 +48,9 @@ public class SeeUsers extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        User user = session != null ? (User)session.getAttribute("user") : null;
+
         Statement statement = null;
         ResultSet results = null;
         ArrayList<User> users = new ArrayList<>();
@@ -68,9 +72,18 @@ public class SeeUsers extends HttpServlet {
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            out.println("<!DOCTYPE html>");
-            out.println("<html lang=\"en\">");
-            out.println("<head><title>Lista Utenti</title></head><body>");
+            out.println(HtmlHelper.getHeader(user, "Utenti",
+                    "table {\n" +
+                    "            width: 100%;\n" +
+                    "            border-collapse: collapse;\n" +
+                    "        }\n" +
+                            "thead { font-weight: bold; }" +
+                    "        th, td {\n" +
+                    "            padding: 10px;\n" +
+                    "            text-align: left;\n" +
+                    "            border: 1px solid #ddd;\n" +
+                    "        }"));
+
             out.println("<h1>Utenti</h1>");
             if (users.size() == 0) {
                 out.println("<p>Nessun utente registrato</p>");
@@ -113,7 +126,8 @@ public class SeeUsers extends HttpServlet {
                     "            rows.forEach(row => tbody.appendChild(row));\n" +
                     "        });\n" +
                     "    </script>");
-            out.println("</body></html>");
+
+            out.println(HtmlHelper.getFooter());
         }
     }
 

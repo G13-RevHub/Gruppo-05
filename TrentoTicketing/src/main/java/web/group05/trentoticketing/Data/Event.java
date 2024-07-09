@@ -5,6 +5,7 @@ import web.group05.trentoticketing.Data.Enums.Event_Type;
 
 import java.io.Serializable;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Event implements Serializable {
@@ -36,18 +37,26 @@ public class Event implements Serializable {
     private Time time;
     private Event_Type type;
     private Event_Location location;
-    private Ticket ticket;
+    private boolean poltrona_ticket;
+    private double poltrona_price;
+    private boolean piedi_ticket;
+    private double piedi_price;
     private int tickets_sold;
+    private int sale;
 
-    public Event(int id, String name, Date date, Time time, Event_Type type, Event_Location location, Ticket ticket, int tickets_sold){
+    public Event(int id, String name, Date date, Time time, Event_Type type, Event_Location location, boolean poltrona_ticket, double poltrona_price, boolean piedi_ticket, double piedi_price, int tickets_sold, int sale) {
         this.id = id;
         this.name = name;
         this.date = date;
         this.time = time;
         this.type = type;
         this.location = location;
-        this.ticket = ticket;
+        this.poltrona_ticket = poltrona_ticket;
+        this.poltrona_price = poltrona_price;
+        this.piedi_ticket = piedi_ticket;
+        this.piedi_price = piedi_price;
         this.tickets_sold = tickets_sold;
+        this.sale = sale;
     }
 
     public Event() {
@@ -57,8 +66,12 @@ public class Event implements Serializable {
         this.time = new Time(0);
         this.type = null;
         this.location = null;
-        ticket = null;
+        this.poltrona_ticket = false;
+        this.poltrona_price = 0;
+        this.piedi_ticket = false;
+        this.piedi_price = 0;
         this.tickets_sold = 0;
+        this.sale = 0;
     }
 
     public int getId() { return this.id; }
@@ -67,6 +80,8 @@ public class Event implements Serializable {
     public Time getTime() { return this.time; }
     public Event_Type getType() { return this.type; }
     public Event_Location getLocation() { return this.location; }
-    public Ticket getTicket() { return this.ticket; }
+    public double getPoltronaTicket() { return this.poltrona_ticket ? this.poltrona_price : -1; }
+    public double getPiediTicket() { return this.piedi_ticket ? this.piedi_price : -1; }
     public int getTickets_sold() { return this.tickets_sold; }
+    public int getSale() { return this.sale; }
 }

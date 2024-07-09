@@ -47,7 +47,7 @@ public class SingUp extends HttpServlet {
         // se esiste, invalido la sessione
         HttpSession session = request.getSession(false);
         if (session != null)
-            session.invalidate();
+            session.removeAttribute("user");
 
         // creo lo user nel DB
         Statement statement = null;

@@ -62,7 +62,6 @@ public class UserProfile extends HttpServlet {
                     ".profile-table { width: 100%; }" +
                     ".cl1 { width: 50%; text-align: right; padding-right: 5px; }" +
                     ".cl2 { width: 50%; text-align: left; padding-left: 5px; }" +
-                    ".delete-button {  }" +
                     "</style></head><body>");
             out.println("<h1>Profilo Utente</h1>" +
                     "<table class=\"profile-table\">" +
@@ -73,7 +72,7 @@ public class UserProfile extends HttpServlet {
                     "<tr><td class=\"cl1\">Email</td><td class=\"cl2\">" + user.getEmail() + "</td></tr>" +
                     "<tr><td class=\"cl1\">Telefono</td><td class=\"cl2\">" + user.getTelefono() + "</td></tr>" +
                     "</table>");
-            out.println("<center><button class=\"delete-button\" onclick=\"deleteProfile()\">Elimina Profilo</button></center>");
+            out.println("<center><button class=\"btn btn-danger\" onclick=\"deleteProfile()\">Elimina Profilo</button></center>");
             out.println("<form id=\"delete-form\" method=\"post\" action=\"DeleteUser\" style=\"display: none;\">" +
                     "<input type=\"hidden\" name=\"username\" id=\"user-username\" value=\"" + user.getUsername() + "\">" +
                     "</form>");

@@ -21,14 +21,17 @@ insert into utente (nome, cognome, data_nascita, email, telefono, username, pass
 
 create table EVENTO
 (
-    id                integer primary key,
-    NOME              varchar(30)       not null,
-    DATA              date              not null,
-    ORA               time              not null,
-    TIPO              integer           not null,
-    LUOGO             integer           not null,
-    PREZZO_BIGLIETTO  float             not null,
-    TIPO_BIGLIETTO    integer           not null,
-    BIGLIETTI_VENDUTI integer default 0 not null
+    id                 integer primary key,
+    NOME               varchar(30)       not null,
+    DATA               date              not null,
+    ORA                time              not null,
+    TIPO               integer           not null,
+    LUOGO              integer           not null,
+    BIGLIETTO_POLTRONA boolean           not null,
+    BIGLIETTO_PIEDI    boolean           not null,
+    PREZZO_BPOLTRONA   double            not null,
+    PREZZO_BPIEDI      double            not null,
+    BIGLIETTI_VENDUTI  integer default 0 not null,
+    SALE               integer default 0 not null,
 );
 

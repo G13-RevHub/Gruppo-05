@@ -5,6 +5,7 @@ import web.group05.trentoticketing.Data.Enums.Event_Type;
 import web.group05.trentoticketing.Data.Event;
 import web.group05.trentoticketing.Data.Ticket;
 import web.group05.trentoticketing.Data.User;
+import web.group05.trentoticketing.Helper.HtmlHelper;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -53,6 +54,9 @@ public class HandleEvents extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        User user = session != null ? (User)session.getAttribute("user") : null;
+
         Statement statement = null;
         ResultSet results = null;
         ArrayList<Event> events = new ArrayList<>();
@@ -63,26 +67,36 @@ public class HandleEvents extends HttpServlet {
             while (results.next()) {
                 events.add(new Event(results.getInt("ID"), results.getString("NOME"), results.getDate("DATA"),
                         results.getTime("ORA"), Event_Type.values()[results.getInt("TIPO")],
-                        Event_Location.values()[results.getInt("LUOGO")], new Ticket(results.getFloat("PREZZO_BIGLIETTO"),
-                        Ticket.TicketType.values()[results.getInt("TIPO_BIGLIETTO")]), results.getInt("BIGLIETTI_VENDUTI")));
+                        Event_Location.values()[results.getInt("LUOGO")], results.getBoolean("BIGLIETTO_POLTRONA"),
+                        results.getDouble("PREZZO_BPOLTRONA"), results.getBoolean("BIGLIETTO_PIEDI"),
+                        results.getDouble("PREZZO_BPIEDI"), results.getInt("BIGLIETTI_VENDUTI"), results.getInt("SALE")));
             }
         } catch (SQLException e) {
             System.out.println("HandleEvent.doGet() SQLException: " + e.getMessage());
-            throw new UnavailableException("HandleEvent.doGet() SQLException: " + e.getMessage());
+            //throw new UnavailableException("HandleEvent.doGet() SQLException: " + e.getMessage());
         }
 
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            out.println("<!DOCTYPE html>");
-            out.println("<html lang=\"en\">");
-            out.println("<head><title>Lista Eventi</title></head><body>");
+            out.println(HtmlHelper.getHeader(user, "Eventi",
+                            "table {\n" +
+                            "            width: 100%;\n" +
+                            "            border-collapse: collapse;\n" +
+                            "        }\n" +
+                            "thead { font-weight: bold; }" +
+                            "        th, td {\n" +
+                            "            padding: 10px;\n" +
+                            "            text-align: center;\n" +
+                            "            border: 1px solid #ddd;\n" +
+                            "        }"));
+
             out.println("<h1>Eventi</h1>");
-            out.println("<a href=\"CreateEvent\">Crea un evento</a>");
+            out.println("<a class=\"btn btn-success mb-1\" href=\"CreateEvent\">Crea un evento</a>");
             if (events.size() == 0) {
                 out.println("<p>Nessun evento presente al momento</p>");
             } else {
-                out.println("<table><thead><tr><td>Nome</td><td>Data</td><td>Ora</td><td>Tipo</td><td>Luogo</td><td>Ticket</td><td>Biglietti Venduti</td></tr><td></td></thead><tbody>");
+                out.println("<table><thead><tr><td>Nome</td><td>Data</td><td>Ora</td><td>Tipo</td><td>Luogo</td><td>Ticket Poltrona</td><td>Ticket In Piedi</td><td>Biglietti Venduti</td><td>Sconto</td><td></td></tr></thead><tbody>");
                 for (Event e: events) {
                     out.println("<tr>");
                     out.println("<td>" + e.getName() + "</td>");
@@ -90,9 +104,11 @@ public class HandleEvents extends HttpServlet {
                     out.println("<td>" + e.getTime() + "</td>");
                     out.println("<td>" + Event.EventTypeToString(e.getType()) + "</td>");
                     out.println("<td>" + Event.EventLocationToString(e.getLocation()) + "</td>");
-                    out.println("<td>" + e.getTicket().getPrice() + " € - " + Ticket.TicketTypeToString(e.getTicket().getType()) + "</td>");
+                    out.println("<td>" + ((e.getPoltronaTicket() == -1) ? "" : e.getPoltronaTicket()) + " €" + "</td>");
+                    out.println("<td>" + ((e.getPiediTicket() == -1) ? "" : e.getPiediTicket()) + " €" + "</td>");
                     out.println("<td>" + e.getTickets_sold() + "</td>");
-                    out.println("<td><button onclick=\"deleteItem(" + e.getId() + ")\">Elimina</button></td>");
+                    out.println("<td>" + (e.getSale() != 0 ? e.getSale() + "%" : "") + "</td>");
+                    out.println("<td><button class=\"btn btn-danger\" onclick=\"deleteItem(" + e.getId() + ")\">Elimina</button></td>");
                     out.println("</tr>");
                 }
                 out.println("</tbody></table>");
@@ -105,7 +121,8 @@ public class HandleEvents extends HttpServlet {
                     "   document.getElementById('item-id').value = itemId;\n" +
                     "   document.getElementById('delete-form').submit();\n}\n" +
                     "</script>");
-            out.println("</body></html>");
+
+            out.println(HtmlHelper.getFooter());
         }
     }
 

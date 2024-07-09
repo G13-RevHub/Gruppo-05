@@ -5,6 +5,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.sql.*;
+import java.util.Objects;
 
 @WebServlet(name = "CreateEventHandler", value = "/CreateEventHandler")
 public class CreateEventHandler extends HttpServlet {
@@ -43,6 +44,8 @@ public class CreateEventHandler extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+
         Statement statement = null;
         ResultSet results = null;
 
@@ -56,15 +59,17 @@ public class CreateEventHandler extends HttpServlet {
                 id = results.getInt(1) + 1;
             }
 
-            query = "INSERT INTO EVENTO (ID, NOME, DATA, ORA, TIPO, LUOGO, PREZZO_BIGLIETTO, TIPO_BIGLIETTO) VALUES (" +
+            query = "INSERT INTO EVENTO (ID, NOME, DATA, TIPO, ORA, LUOGO, BIGLIETTO_POLTRONA, BIGLIETTO_PIEDI, PREZZO_BPOLTRONA, PREZZO_BPIEDI) VALUES (" +
                     id + ", " +
                     "'" + request.getParameter("nome") + "', " +
                     "'" + request.getParameter("data") + "', " +
+                    request.getParameter("tipo") + ", " +
                     "'" + request.getParameter("ora") + "', " +
-                    "" + request.getParameter("tipo") + ", " +
                     "" + request.getParameter("luogo") + ", " +
-                    "" + request.getParameter("prezzo") + ", " +
-                    request.getParameter("tipo_biglietto") +
+                    "" + (Objects.equals(request.getParameter("poltrona"), "on") ? "true" : "false") + ", " +
+                    "" + (Objects.equals(request.getParameter("piedi"), "on") ? "true" : "false") + ", " +
+                    "" + request.getParameter("prezzo-poltrona") + ", " +
+                    request.getParameter("prezzo-piedi") +
                     ")";
             System.out.println(query);
             statement.executeUpdate(query);
