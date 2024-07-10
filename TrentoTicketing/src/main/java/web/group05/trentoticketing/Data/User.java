@@ -33,6 +33,7 @@ public class User implements Serializable {
     public String getUsername() { return username; }
     public boolean getIs_admin() { return is_admin; }
     public int getBiglietti_aquistati() { return biglietti_acquistati; }
+    public void acqista_biglietti(int ba) { biglietti_acquistati += ba; }
 
     // non so se voglio avere dei setter, dato che l'unico modo di modificare un user è agendo sul DB con una query
 }

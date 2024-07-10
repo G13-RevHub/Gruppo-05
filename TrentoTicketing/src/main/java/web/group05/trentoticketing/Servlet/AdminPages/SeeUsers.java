@@ -72,7 +72,7 @@ public class SeeUsers extends HttpServlet {
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            out.println(HtmlHelper.getHeader(user, "Utenti",
+            out.println(HtmlHelper.getHeader(session, "Utenti",
                     "table {\n" +
                     "            width: 100%;\n" +
                     "            border-collapse: collapse;\n" +
@@ -88,10 +88,8 @@ public class SeeUsers extends HttpServlet {
             if (users.size() == 0) {
                 out.println("<p>Nessun utente registrato</p>");
             } else {
-                out.println("<label>" +
-                        "<input type=\"checkbox\" id=\"sort-checkbox\"> Ordina per biglietti acquistati" +
-                        "</label>");
-                out.println("<table><thead><tr><td>Nome</td><td>Cognome</td><td>Nascita</td><td>Email</td><td>Telefono</td><td>Username</td><td>Biglietti Acquistati</td></tr></thead><tbody>");
+                out.println("<label for=\"sortCheckbox\">Attiva/Disattiva ordinamento</label><input type=\"checkbox\" id=\"sortCheckbox\">");
+                out.println("<table id=\"usersTable\"><thead><tr><th>Nome</th><th>Cognome</th><th>Nascita</th><th>Email</th><th>Telefono</th><th>Username</th><th>Biglietti Acquistati</th></tr></thead><tbody>");
                 for (User u: users) {
                     out.println("<tr>");
                     out.println("<td>" + u.getNome() + "</td>");
@@ -106,25 +104,42 @@ public class SeeUsers extends HttpServlet {
                 out.println("</tbody></table>");
             }
             out.println("<script>\n" +
-                    "        document.getElementById('sort-checkbox').addEventListener('change', function () {\n" +
-                    "            const table = document.getElementById('data-table');\n" +
-                    "            const tbody = table.querySelector('tbody');\n" +
-                    "            const rows = Array.from(tbody.querySelectorAll('tr'));\n" +
-                    "            if (this.checked) {\n" +
-                    "                rows.sort((a, b) => {\n" +
-                    "                    const aValue = parseInt(a.querySelector('td[data-value]').dataset.value, 10);\n" +
-                    "                    const bValue = parseInt(b.querySelector('td[data-value]').dataset.value, 10);\n" +
-                    "                    return aValue - bValue;\n" +
-                    "                });\n" +
-                    "            } else {\n" +
-                    "                rows.sort((a, b) => {\n" +
-                    "                    return parseInt(a.querySelector('td[data-value]').dataset.value, 10) -\n" +
-                    "                           parseInt(b.querySelector('td[data-value]').dataset.value, 10);\n" +
-                    "                });\n}\n" +
-                    "            while (tbody.firstChild) {\n" +
-                    "                tbody.removeChild(tbody.firstChild);\n}\n" +
-                    "            rows.forEach(row => tbody.appendChild(row));\n" +
+                    "        let originalOrder = [];\n" +
+                    "        document.addEventListener(\"DOMContentLoaded\", function() {\n" +
+                    "            const tbody = document.querySelector(\"#usersTable tbody\");\n" +
+                    "            originalOrder = Array.from(tbody.querySelectorAll(\"tr\"));\n" +
                     "        });\n" +
+                    "        document.getElementById(\"sortCheckbox\").addEventListener(\"change\", function() {\n" +
+                    "            if (this.checked) {\n" +
+                    "                sortTableByColumn(\"usersTable\", 6, true);\n" +
+                    "            } else {\n" +
+                    "                resetTableOrder(\"usersTable\");\n" +
+                    "            }\n" +
+                    "        });\n" +
+                    "        function sortTableByColumn(tableId, columnIndex, desc = false) {\n" +
+                    "            const table = document.getElementById(tableId);\n" +
+                    "            const tbody = table.querySelector(\"tbody\");\n" +
+                    "            const rows = Array.from(tbody.querySelectorAll(\"tr\"));\n" +
+                    "            const sortedRows = rows.sort((a, b) => {\n" +
+                    "                const aColText = a.querySelector(`td:nth-child(${columnIndex + 1})`).textContent.trim();\n" +
+                    "                const bColText = b.querySelector(`td:nth-child(${columnIndex + 1})`).textContent.trim();\n" +
+                    "                const aColValue = parseInt(aColText, 10);\n" +
+                    "                const bColValue = parseInt(bColText, 10);\n" +
+                    "                return desc ? bColValue - aColValue : aColValue - bColValue;\n" +
+                    "            });\n" +
+                    "            while (tbody.firstChild) {\n" +
+                    "                tbody.removeChild(tbody.firstChild);\n" +
+                    "            }\n" +
+                    "            tbody.append(...sortedRows);\n" +
+                    "        }\n" +
+                    "        function resetTableOrder(tableId) {\n" +
+                    "            const table = document.getElementById(tableId);\n" +
+                    "            const tbody = table.querySelector(\"tbody\");\n" +
+                    "            while (tbody.firstChild) {\n" +
+                    "                tbody.removeChild(tbody.firstChild);\n" +
+                    "            }\n" +
+                    "            tbody.append(...originalOrder);\n" +
+                    "        }\n" +
                     "    </script>");
 
             out.println(HtmlHelper.getFooter());

@@ -17,11 +17,12 @@ public class AuthenticationFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
         HttpServletRequest hreq = (HttpServletRequest) request;
-        HttpSession session = hreq.getSession(false);
+        HttpSession session = hreq.getSession(true);
 
         if (session != null && session.getAttribute("user") != null) {
             chain.doFilter(request, response);
         } else {
+            System.out.println("non può passare auth");
             request.getRequestDispatcher("account/login.html").forward(request, response);
         }
     }

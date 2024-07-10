@@ -19,7 +19,7 @@ public class CreateEvent extends HttpServlet {
         // retrive data for graph
 
         try (PrintWriter out = response.getWriter()) {
-            out.println(HtmlHelper.getHeader(user, "Crea Evento"));
+            out.println(HtmlHelper.getHeader(session, "Crea Evento"));
 
             out.println("<h1>Crea Evento</h1>");
             out.println("<form action=\"CreateEventHandler\" method=post>" +

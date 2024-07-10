@@ -1,21 +1,36 @@
 package web.group05.trentoticketing.Helper;
 
+import web.group05.trentoticketing.Data.CartItem;
 import web.group05.trentoticketing.Data.User;
 
+import javax.servlet.http.HttpSession;
+
 public class HtmlHelper {
-    public static String getHeader(User user, String title) {
-        return getHeader(user, title, "main { padding: 10px; }");
+    public static String getHeader(HttpSession session, String title) {
+        return getHeader(session, title, "");
     }
-    public static String getHeader(User user, String title, String style) {
+
+    public static String getHeader(HttpSession session, String title, String style) {
+        User user = session != null ? (User)session.getAttribute("user") : null;
+        CartItem[] cart = session != null ? (CartItem[])session.getAttribute("cart") : null;
+        int items = 0;
+        if (cart != null) {
+            for (CartItem item : cart) {
+                items += item.qty;
+            }
+        }
+
         return "<!DOCTYPE html>" +
-                "<html lang=\"en\">" +
-                "<head><title>" + title +"</title>" +
+                "<html lang=\"it\">" +
+                "<head>" +
+                "<title>" + title +"</title>" +
+                "<link rel=\"icon\" type=\"image/x-icon\" href=\"/images/favicon.ico\">" +
                 "    <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC\" crossorigin=\"anonymous\">\n" +
-                "    <style>main { padding: 10px; }" + style + "</style>" +
+                "    <style>main { padding: 10px; } h1, h2 { text-align: center; }" + style + "</style>" +
                 "</head><body style=\"min-height: 100vh;\">" +
                 "<nav class=\"navbar navbar-expand-lg navbar-light bg-light\">\n" +
                 "        <div class=\"container-fluid\">\n" +
-                "            <a class=\"navbar-brand\" href=\"#\">Home</a>\n" +
+                "            <a class=\"navbar-brand\" href=\"Home\">Home</a>\n" +
                 "          <button class=\"navbar-toggler\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#navbarSupportedContent\" aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n" +
                 "            <span class=\"navbar-toggler-icon\"></span>\n" +
                 "          </button>\n" +
@@ -35,6 +50,7 @@ public class HtmlHelper {
                 "                            <li><a class=\"dropdown-item\" href=\"EventCategoryList?type=5\">Musei</a></li>\n" +
                 "                        </ul>\n" +
                 "                    </li>\n" +
+                "                    <li class=\"nav-item\"><a class=\"nav-link\"  href=\"Cart\">Carrello (" + items +")</a></li>\n" +
                 (user != null ? (user.getIs_admin() ?
                 "                    <li class=\"nav-item\"><a class=\"nav-link\" href=\"SeeUsers\">Utenti</a></li>\n" +
                 "                    <li class=\"nav-item\"><a class=\"nav-link\" href=\"HandleEvents\">Gestisci Eventi</a></li>\n" +

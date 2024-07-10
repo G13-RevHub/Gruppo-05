@@ -75,7 +75,7 @@ public class ValidationLogin extends HttpServlet {
             //request.getRequestDispatcher("./account/login_failed.html").include(request, response);
             request.getRequestDispatcher("account/login_failed.html").forward(request, response);
         } else {
-            session = request.getSession();
+            session = request.getSession(true);
             session.setAttribute("user", user);
             request.getRequestDispatcher("Home").forward(request, response);
             // gestione caso cookie disabilitati

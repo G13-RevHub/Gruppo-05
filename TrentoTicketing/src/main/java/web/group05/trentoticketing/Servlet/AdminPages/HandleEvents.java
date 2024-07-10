@@ -79,7 +79,7 @@ public class HandleEvents extends HttpServlet {
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            out.println(HtmlHelper.getHeader(user, "Eventi",
+            out.println(HtmlHelper.getHeader(session, "Eventi",
                             "table {\n" +
                             "            width: 100%;\n" +
                             "            border-collapse: collapse;\n" +
@@ -92,11 +92,12 @@ public class HandleEvents extends HttpServlet {
                             "        }"));
 
             out.println("<h1>Eventi</h1>");
-            out.println("<a class=\"btn btn-success mb-1\" href=\"CreateEvent\">Crea un evento</a>");
+            out.println("<a class=\"btn btn-success mb-1 mx-4\" href=\"CreateEvent\">Crea un evento</a>");
             if (events.size() == 0) {
                 out.println("<p>Nessun evento presente al momento</p>");
             } else {
-                out.println("<table><thead><tr><td>Nome</td><td>Data</td><td>Ora</td><td>Tipo</td><td>Luogo</td><td>Ticket Poltrona</td><td>Ticket In Piedi</td><td>Biglietti Venduti</td><td>Sconto</td><td></td></tr></thead><tbody>");
+                out.println("<label for=\"sortCheckbox\">Attiva/Disattiva ordinamento</label><input type=\"checkbox\" id=\"sortCheckbox\">");
+                out.println("<table id=\"eventsTable\"><thead><tr><th>Nome</th><th>Data</th><th>Ora</th><th>Tipo</th><th>Luogo</th><th>Ticket Poltrona</th><th>Ticket In Piedi</th><th>Biglietti Venduti</th><th>Sconto</th><th></th></tr></thead><tbody>");
                 for (Event e: events) {
                     out.println("<tr>");
                     out.println("<td>" + e.getName() + "</td>");
@@ -104,22 +105,61 @@ public class HandleEvents extends HttpServlet {
                     out.println("<td>" + e.getTime() + "</td>");
                     out.println("<td>" + Event.EventTypeToString(e.getType()) + "</td>");
                     out.println("<td>" + Event.EventLocationToString(e.getLocation()) + "</td>");
-                    out.println("<td>" + ((e.getPoltronaTicket() == -1) ? "" : e.getPoltronaTicket()) + " €" + "</td>");
-                    out.println("<td>" + ((e.getPiediTicket() == -1) ? "" : e.getPiediTicket()) + " €" + "</td>");
+                    out.println("<td>" + ((e.getPoltronaTicket() == -1) ? "-" : e.getPoltronaTicket() + " €") + "</td>");
+                    out.println("<td>" + ((e.getPiediTicket() == -1) ? "-" : e.getPiediTicket() + " €") + "</td>");
                     out.println("<td>" + e.getTickets_sold() + "</td>");
-                    out.println("<td>" + (e.getSale() != 0 ? e.getSale() + "%" : "") + "</td>");
+                    out.println("<td>" + (e.getSale() != 0 ? e.getSale() + "%" : "-") + "</td>");
                     out.println("<td><button class=\"btn btn-danger\" onclick=\"deleteItem(" + e.getId() + ")\">Elimina</button></td>");
                     out.println("</tr>");
                 }
                 out.println("</tbody></table>");
+
+                out.println("<script>\n" +
+                        "        let originalOrder = [];\n" +
+                        "        document.addEventListener(\"DOMContentLoaded\", function() {\n" +
+                        "            const tbody = document.querySelector(\"#eventsTable tbody\");\n" +
+                        "            originalOrder = Array.from(tbody.querySelectorAll(\"tr\"));\n" +
+                        "        });\n" +
+                        "        document.getElementById(\"sortCheckbox\").addEventListener(\"change\", function() {\n" +
+                        "            if (this.checked) {\n" +
+                        "                sortTableByColumn(\"eventsTable\", 7, true);\n" +
+                        "            } else {\n" +
+                        "                resetTableOrder(\"eventsTable\");\n" +
+                        "            }\n" +
+                        "        });\n" +
+                        "        function sortTableByColumn(tableId, columnIndex, desc = false) {\n" +
+                        "            const table = document.getElementById(tableId);\n" +
+                        "            const tbody = table.querySelector(\"tbody\");\n" +
+                        "            const rows = Array.from(tbody.querySelectorAll(\"tr\"));\n" +
+                        "            const sortedRows = rows.sort((a, b) => {\n" +
+                        "                const aColText = a.querySelector(`td:nth-child(${columnIndex + 1})`).textContent.trim();\n" +
+                        "                const bColText = b.querySelector(`td:nth-child(${columnIndex + 1})`).textContent.trim();\n" +
+                        "                const aColValue = parseInt(aColText, 10);\n" +
+                        "                const bColValue = parseInt(bColText, 10);\n" +
+                        "                return desc ? bColValue - aColValue : aColValue - bColValue;\n" +
+                        "            });\n" +
+                        "            while (tbody.firstChild) {\n" +
+                        "                tbody.removeChild(tbody.firstChild);\n" +
+                        "            }\n" +
+                        "            tbody.append(...sortedRows);\n" +
+                        "        }\n" +
+                        "        function resetTableOrder(tableId) {\n" +
+                        "            const table = document.getElementById(tableId);\n" +
+                        "            const tbody = table.querySelector(\"tbody\");\n" +
+                        "            while (tbody.firstChild) {\n" +
+                        "                tbody.removeChild(tbody.firstChild);\n" +
+                        "            }\n" +
+                        "            tbody.append(...originalOrder);\n" +
+                        "        }\n" +
+                        "    </script>");
             }
             out.println("<form id=\"delete-form\" method=\"post\" action=\"DeleteEvent\" style=\"display: none;\">" +
                     "<input type=\"hidden\" name=\"id\" id=\"item-id\">" +
                     "</form>");
-            out.println("<script>\n" +
-                    "function deleteItem(itemId) {\n" +
-                    "   document.getElementById('item-id').value = itemId;\n" +
-                    "   document.getElementById('delete-form').submit();\n}\n" +
+            out.println("<script>" +
+                    "function deleteItem(itemId) {" +
+                    "   document.getElementById('item-id').value = itemId;" +
+                    "   document.getElementById('delete-form').submit();}" +
                     "</script>");
 
             out.println(HtmlHelper.getFooter());

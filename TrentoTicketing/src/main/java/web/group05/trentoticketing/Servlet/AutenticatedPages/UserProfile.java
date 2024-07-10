@@ -1,6 +1,7 @@
 package web.group05.trentoticketing.Servlet.AutenticatedPages;
 
 import web.group05.trentoticketing.Data.User;
+import web.group05.trentoticketing.Helper.HtmlHelper;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -57,12 +58,11 @@ public class UserProfile extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             out.println("<!DOCTYPE html>");
             out.println("<html lang=\"en\">");
-            out.println("<head><title>Profilo</title>" +
-                    "<style>" +
+            out.println(HtmlHelper.getHeader(session, "Conferma Pagamento",
                     ".profile-table { width: 100%; }" +
-                    ".cl1 { width: 50%; text-align: right; padding-right: 5px; }" +
-                    ".cl2 { width: 50%; text-align: left; padding-left: 5px; }" +
-                    "</style></head><body>");
+                    ".cl1 { width: 50%; text-align: right; padding-right: 5px; font-weight: bold; }" +
+                    ".cl2 { width: 50%; text-align: left; padding-left: 5px; }"));
+
             out.println("<h1>Profilo Utente</h1>" +
                     "<table class=\"profile-table\">" +
                     "<tr><td class=\"cl1\">Username</td><td class=\"cl2\">" + user.getUsername() + "</td></tr>" +
@@ -80,7 +80,8 @@ public class UserProfile extends HttpServlet {
                     "function deleteProfile() {\n" +
                     "   document.getElementById('delete-form').submit();\n}\n" +
                     "</script>");
-            out.println("</body></html>");
+
+            out.println(HtmlHelper.getFooter());
         }
     }
 

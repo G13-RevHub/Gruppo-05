@@ -20,7 +20,7 @@ public class Home extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
 
         try (PrintWriter out = response.getWriter()) {
-            out.println(HtmlHelper.getHeader(user, "Home"));
+            out.println(HtmlHelper.getHeader(session, "Home"));
 
             out.println("<h1>TrentoTicketing</h1>\n" +
                     "        <img src=\"images/logo.png\" />\n" +

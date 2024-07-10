@@ -77,7 +77,7 @@ public class EventPage extends HttpServlet {
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            out.println(HtmlHelper.getHeader(user, "Evento"));
+            out.println(HtmlHelper.getHeader(session, "Evento"));
 
             out.println("<h1>Evento " + event.getName() + "</h1>");
 

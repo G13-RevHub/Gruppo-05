@@ -30,14 +30,23 @@
         <servlet-name>EventCategoryList</servlet-name>
         <url-pattern>/EventCategoryList</url-pattern>
     </servlet-mapping>
-    <servlet>
 
+    <servlet>
         <servlet-name>EventPage</servlet-name>
         <servlet-class>web.group05.trentoticketing.Servlet.EventPage</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>EventPage</servlet-name>
         <url-pattern>/EventPage</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Cart</servlet-name>
+        <servlet-class>web.group05.trentoticketing.Servlet.Cart</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Cart</servlet-name>
+        <url-pattern>/Cart</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -68,6 +77,24 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>AddToCart</servlet-name>
+        <servlet-class>web.group05.trentoticketing.Servlet.Handler.AddToCart</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddToCart</servlet-name>
+        <url-pattern>/AddToCart</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>RemoveFromCart</servlet-name>
+        <servlet-class>web.group05.trentoticketing.Servlet.Handler.RemoveFromCart</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RemoveFromCart</servlet-name>
+        <url-pattern>/RemoveFromCart</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>CreateEventHandler</servlet-name>
         <servlet-class>web.group05.trentoticketing.Servlet.Handler.CreateEventHandler</servlet-class>
     </servlet>
@@ -92,6 +119,15 @@
     <servlet-mapping>
         <servlet-name>UserProfile</servlet-name>
         <url-pattern>/UserProfile</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ConfirmAndPay</servlet-name>
+        <servlet-class>web.group05.trentoticketing.Servlet.AutenticatedPages.ConfirmAndPay</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ConfirmAndPay</servlet-name>
+        <url-pattern>/ConfirmAndPay</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -120,6 +156,7 @@
         <url-pattern>/DeleteEvent</url-pattern>
         <url-pattern>/UserProfile</url-pattern>
         <url-pattern>/DeleteUser</url-pattern>
+        <url-pattern>/ConfirmAndPay</url-pattern>
     </filter-mapping>
 
     <filter>
