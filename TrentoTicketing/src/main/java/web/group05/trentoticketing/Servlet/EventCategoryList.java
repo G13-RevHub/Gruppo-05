@@ -92,36 +92,23 @@ public class EventCategoryList extends HttpServlet {
             out.println("<h1>Eventi - " + Event_Type.values()[event_type] + "</h1>");
 
             if (events.size() > 0) {
-                out.println("<table><thead><tr><td>Nome</td><td>Data</td><td>Ora</td><td>Luogo</td><td>Sconto</td><td>Ticket Poltrona</td><td>Ticket In Piedi</td></tr></thead><tbody>");
+                out.println("<table><thead><tr><td>Nome</td><td>Data</td><td>Ora</td><td>Luogo</td><td></td></tr></thead><tbody>");
                 for (Event e: events) {
                     out.println("<tr>");
                     out.println("<td>" + e.getName() + "</td>");
                     out.println("<td>" + e.getDate() + "</td>");
                     out.println("<td>" + e.getTime() + "</td>");
                     out.println("<td>" + Event.EventLocationToString(e.getLocation()) + "</td>");
-                    out.println("<td>" + (e.getSale() != 0 ? e.getSale() + "%" : "") + "</td>");
-                    out.println("<td>" + ((e.getPoltronaTicket() == -1) ? "" : e.getPoltronaTicket() + " € <button class=\"btn btn-success\" onclick=\"addToCart(" + e.getId() + ", 1)\">+</button>") + "</td>");
-                    out.println("<td>" + ((e.getPiediTicket() == -1) ? "" : e.getPiediTicket() + " € <button class=\"btn btn-success\" onclick=\"addToCart(" + e.getId() + ", 2)\">+</button>") + "</td>");
+                    out.println("<td><a class='btn btn-secondary' href='EventPage?id=" + e.getId() + "'>Apri</a></td>");
+                    //out.println("<td>" + (e.getSale() != 0 ? e.getSale() + "%" : "") + "</td>");
+                    //out.println("<td>" + ((e.getPoltronaTicket() == -1) ? "" : e.getPoltronaTicket() + " € <button class=\"btn btn-success\" onclick=\"addToCart(" + e.getId() + ", 1)\">+</button>") + "</td>");
+                    //out.println("<td>" + ((e.getPiediTicket() == -1) ? "" : e.getPiediTicket() + " € <button class=\"btn btn-success\" onclick=\"addToCart(" + e.getId() + ", 2)\">+</button>") + "</td>");
                     out.println("</tr>");
                 }
                 out.println("</tbody></table>");
             } else {
                 out.println("<p>Al momento non sono presenti eventi di questa categoria</p>");
             }
-
-
-
-            out.println("<form id=\"add-form\" method=\"post\" action=\"AddToCart\" style=\"display: none;\">" +
-                    "<input type=\"hidden\" name=\"event_type\" id=\"item-event_type\" value=\"" + event_type + "\">" +
-                    "<input type=\"hidden\" name=\"event_id\" id=\"item-event_id\">" +
-                    "<input type=\"hidden\" name=\"ticket_type\" id=\"item-ticket_type\">" +
-                    "</form>");
-            out.println("<script>" +
-                    "function addToCart(eventId, ticketType) {" +
-                    "   document.getElementById('item-event_id').value = eventId;" +
-                    "   document.getElementById('item-ticket_type').value = ticketType;" +
-                    "   document.getElementById('add-form').submit();}" +
-                    "</script>");
 
             out.println(HtmlHelper.getFooter());
         }

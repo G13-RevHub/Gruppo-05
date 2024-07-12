@@ -100,7 +100,13 @@ public class Cart extends HttpServlet {
                             "            padding: 10px;\n" +
                             "            text-align: center;\n" +
                             "            border: 1px solid #ddd;\n" +
-                            "        }"));
+                            "        }", "\n" +
+                            "    <script src=\"https://code.jquery.com/jquery-3.5.1.min.js\"></script>\n" +
+                            "    <script>\n" +
+                            "        $(document).ready(function(){\n" +
+                            "            $(\"#saleModal\").modal('show');\n" +
+                            "        });\n" +
+                            "    </script>"));
             out.println("<h1>Carrello</h1>");
 
             if (cart == null || cart.length == 0) {
@@ -120,12 +126,11 @@ public class Cart extends HttpServlet {
                 }
                 out.println("</tbody></table>");
 
-                out.println("<a class=\"btn btn-success\" href=\"ConfirmAndPay\">Procedi al pagamento</a>");
+                out.println("<a class=\"btn btn-success m-3\" href=\"ConfirmAndPay\">Procedi al pagamento</a>");
             }
 
             if (eventsOnSale.size() > 0) {
-                out.println("<button type=\"button\" id=\"modalbtn\" class=\"btn btn-primary\" data-bs-toggle=\"modal\" data-bs-target=\"#modal\" hidden></button>\n" +
-                        "    <div class=\"modal fade\" id=\"modal\" tabindex=\"-1\" aria-labelledby=\"modalLabel\" aria-hidden=\"true\">\n" +
+                out.println("<div class=\"modal fade\" id=\"saleModal\" tabindex=\"-1\" aria-labelledby=\"modalLabel\" aria-hidden=\"false\">\n" +
                         "        <div class=\"modal-dialog\">\n" +
                         "            <div class=\"modal-content\">\n" +
                         "                <div class=\"modal-header\">\n" +
@@ -146,21 +151,16 @@ public class Cart extends HttpServlet {
                         "            </div>\n" +
                         "        </div>\n" +
                         "    </div>");
-                out.println("<script>\n" +
-                        "        document.getElementById(\"modalbtn\").click();\n" +
-                        "</script>");
             }
             out.println("<form id=\"remove-form\" method=\"post\" action=\"RemoveFromCart\" style=\"display: none;\">" +
                     "<input type=\"hidden\" name=\"event_id\" id=\"item-event_id\">" +
                     "<input type=\"hidden\" name=\"ticket_type\" id=\"item-ticket_type\">" +
                     "</form>");
-            out.println("<script>" +
-                    "function removeFromCart(eventId, ticketType) {" +
-                    "   document.getElementById('item-event_id').value = eventId;" +
-                    "   document.getElementById('item-ticket_type').value = ticketType;" +
-                    "   document.getElementById('remove-form').submit();}" +
-                    "</script>");
-            out.println(HtmlHelper.getFooter());
+            out.println(HtmlHelper.getFooter("" +
+                    "function removeFromCart(eventId, ticketType) {\n" +
+                    "   document.getElementById('item-event_id').value = eventId;\n" +
+                    "   document.getElementById('item-ticket_type').value = ticketType;\n" +
+                    "   document.getElementById('remove-form').submit();}"));
         }
     }
 

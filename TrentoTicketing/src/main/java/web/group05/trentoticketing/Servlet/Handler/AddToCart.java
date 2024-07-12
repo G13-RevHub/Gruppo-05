@@ -15,7 +15,6 @@ public class AddToCart extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(true);
-        int event_type = Integer.parseInt(request.getParameter("event_type"));
         int event_id = Integer.parseInt(request.getParameter("event_id"));
         int ticket_type = Integer.parseInt(request.getParameter("ticket_type"));
 
@@ -41,6 +40,6 @@ public class AddToCart extends HttpServlet {
         }
         session.setAttribute("cart", items);
 
-        request.getRequestDispatcher("EventCategoryList?type="+event_type).forward(request, response);
+        request.getRequestDispatcher("EventPage?id="+event_id).forward(request, response);
     }
 }

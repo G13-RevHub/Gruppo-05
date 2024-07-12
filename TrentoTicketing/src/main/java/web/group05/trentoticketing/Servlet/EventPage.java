@@ -74,14 +74,64 @@ public class EventPage extends HttpServlet {
             //throw new UnavailableException("EventPage.doGet() SQLException: " + e.getMessage());
         }
 
+        if (event == null) {
+            request.getRequestDispatcher("Home").forward(request, response);
+            return;
+        }
+
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            out.println(HtmlHelper.getHeader(session, "Evento"));
+            out.println(HtmlHelper.getHeader(session, "Evento",
+                    ".main-div { height: 100%; padding: 10px; display: flex; flex-direction: row; }" +
+                            ".img-div { height: 100%; padding: 10px; width: 25%; border-right: 1px solid black; display: flex; justify-content: center; align-items: center; }" +
+                            ".data-div { height: 100%; padding: 10px; width: 75%; border-left: 1px solid black; display: flex; flex-direction: column; }" +
+                            ".td1 { width: 50%; text-align: right; font-weight: bold; }" +
+                            ".td2 { width: 50%; }" +
+                            ".ticket-table { width: 300px; }" +
+                            ".ticket-table tr th { border: 1px solid black; text-align: center; }" +
+                            ".ticket-table tr td { border: 1px solid black; text-align: center; }" +
+                            ""));
 
             out.println("<h1>Evento " + event.getName() + "</h1>");
+            if (event.getSale() > 0) {
+                out.println("<h3>È attivo uno sconto del " + event.getSale() + " per questo evento!</h3>");
+            }
+            out.println("<div class='main-div'>" +
+                    "<div class='img-div'>" +
+                    "<img src='images/default.png' />" +
+                    "</div>" +
+                    "<div class='data-div'>" +
+                    "<p>Dettagli sull'evento:</p>" +
+                    "<table>" +
+                    "<tr><td class='td1'>Data</td><td class='td2'>" + event.getDate() + "</td></tr>" +
+                    "<tr><td class='td1'>Ora</td><td class='td2'>" + event.getTime() + "</td></tr>" +
+                    "<tr><td class='td1'>Luogo</td><td class='td2'>" + Event.EventLocationToString(event.getLocation()) + "</td></tr>" +
+                    "</table><br/>");
+            if (event.getPoltronaTicket() == -1 && event.getPiediTicket() == -1) {
+                out.println("<p>Non sono disponibili biglietti per l'evento</p>");
+            } else {
+                out.println("<p>Acquista i biglietti:</p>" +
+                        "<table class='ticket-table'>" +
+                        "<thead><tr><th>Tipo</th><th>Prezzo</th><th></th></tr>");
+                if (event.getPoltronaTicket() != -1) {
+                    out.println("<tr><td>Poltrona</td><td>" + (event.getSale() > 0 ? ("<p style='text-decoration: wavy overline black;'>" + event.getPoltronaTicket() + "</p> -> " + event.getPoltronaTicket() * (100 - event.getSale()) / 100) : event.getPoltronaTicket()) + " €</td><td><button class='btn btn-success' onclick='addToCart(1)'>+</button></td></tr>");
+                }
+                if (event.getPiediTicket() != -1) {
+                    out.println("<tr><td>Piedi</td><td>" + (event.getSale() > 0 ? ("<p style='text-decoration: wavy overline black;'>" + event.getPiediTicket() + "</p> -> " + event.getPiediTicket() * (100 - event.getSale()) / 100) : event.getPiediTicket()) + " €</td><td><button class='btn btn-success' onclick='addToCart(2)'>+</button></td></tr>");
+                }
+                out.println("</table>");
+            }
+            out.println("</div></div>");
 
-            out.println("</body></html>");
+            out.println("<form id=\"add-form\" method=\"post\" action=\"AddToCart\" style=\"display: none;\">" +
+                    "<input type=\"hidden\" name=\"event_id\" id=\"item-event_id\" value='" + event_id + "'>" +
+                    "<input type=\"hidden\" name=\"ticket_type\" id=\"item-ticket_type\">" +
+                    "</form>");
+
+            out.println(HtmlHelper.getFooter("function addToCart(ticketType) {" +
+                    "   document.getElementById('item-ticket_type').value = ticketType;" +
+                    "   document.getElementById('add-form').submit();}"));
         }
     }
 

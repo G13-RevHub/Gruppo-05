@@ -116,15 +116,20 @@ public class ConfirmAndPay extends HttpServlet {
         response.setContentType("text/html");
         response.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            out.println(HtmlHelper.getHeader(session, "Conferma Pagamento", "p { text-align: center; }"));
+            out.println(HtmlHelper.getHeader(session, "Conferma Pagamento", "p { text-align: center; }", "\n" +
+                    "    <script src=\"https://code.jquery.com/jquery-3.5.1.min.js\"></script>\n" +
+                    "    <script>\n" +
+                    "        $(document).ready(function(){\n" +
+                    "            $(\"#payModal\").modal('show');\n" +
+                    "        });\n" +
+                    "    </script>"));
 
             out.println("<h2>Pagamento avvenuto con successo!</h2>");
             out.println("<p>Totale pagato: " + (totale - regalo) + " €</p>");
             out.println("<p>Torna alla <a href=\"Home\">Home</a></p>");
 
             if (freeTickets.size() > 0) {
-                out.println("<button type=\"button\" id=\"modalbtn\" class=\"btn btn-primary\" data-bs-toggle=\"modal\" data-bs-target=\"#modal\" hidden></button>\n" +
-                        "    <div class=\"modal fade\" id=\"modal\" tabindex=\"-1\" aria-labelledby=\"modalLabel\" aria-hidden=\"true\">\n" +
+                out.println("<div class=\"modal fade\" id=\"payModal\" tabindex=\"-1\" aria-labelledby=\"modalLabel\" aria-hidden=\"false\">\n" +
                         "        <div class=\"modal-dialog\">\n" +
                         "            <div class=\"modal-content\">\n" +
                         "                <div class=\"modal-header\">\n" +
@@ -146,9 +151,6 @@ public class ConfirmAndPay extends HttpServlet {
                         "            </div>\n" +
                         "        </div>\n" +
                         "    </div>");
-                out.println("<script>\n" +
-                        "        document.getElementById(\"modalbtn\").click();\n" +
-                        "</script>");
             }
 
             out.println(HtmlHelper.getFooter());

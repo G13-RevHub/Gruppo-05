@@ -79,7 +79,7 @@ public class ValidationLogin extends HttpServlet {
             session.setAttribute("user", user);
             request.getRequestDispatcher("Home").forward(request, response);
             // gestione caso cookie disabilitati
-            //String s = response.encodeRedirectURL("./account/index.html");
+            //String s = response.encodeRedirectURL("Home");
             //response.sendRedirect(s);
             //request.getRequestDispatcher(response.encodeRedirectURL("./destination.html")).forward(request, response); // nelle altre pagine
         }

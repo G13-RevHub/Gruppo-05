@@ -1,0 +1,47 @@
+main {
+    padding: 10px;
+    height: 100% !important;
+}
+
+h1, h2 {
+    text-align: center;
+}
+.cookie-banner {
+    position: fixed;
+    display: none;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #535353;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+.cookie-banner button {
+    margin-left: 30px;
+}
+
+.content-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+.content-hcenter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.content-hcenter form {
+    text-align: center;
+}
+.content-hcenter form label {
+    width: 45%;
+    text-align: right;
+}
+.content-hcenter form input {
+    width: 45%;
+}
