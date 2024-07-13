@@ -139,6 +139,24 @@
         <url-pattern>/DeleteUser</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>ChangeEventSale</servlet-name>
+        <servlet-class>web.group05.trentoticketing.Servlet.Handler.ChangeEventSale</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ChangeEventSale</servlet-name>
+        <url-pattern>/ChangeEventSale</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>EventOnSale</servlet-name>
+        <servlet-class>web.group05.trentoticketing.Servlet.API.EventOnSale</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EventOnSale</servlet-name>
+        <url-pattern>/EventOnSale</url-pattern>
+    </servlet-mapping>
+
 
     <!-- Filtri -->
     <filter>
@@ -157,6 +175,7 @@
         <url-pattern>/UserProfile</url-pattern>
         <url-pattern>/DeleteUser</url-pattern>
         <url-pattern>/ConfirmAndPay</url-pattern>
+        <url-pattern>/ChangeEventSale</url-pattern>
     </filter-mapping>
 
     <filter>
@@ -171,6 +190,7 @@
         <url-pattern>/CreateEvent</url-pattern>
         <url-pattern>/CreateEventHandler</url-pattern>
         <url-pattern>/DeleteEvent</url-pattern>
+        <url-pattern>/ChangeEventSale</url-pattern>
     </filter-mapping>
 
 </web-app>

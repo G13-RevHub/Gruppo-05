@@ -88,14 +88,14 @@ public class EventPage extends HttpServlet {
                             ".data-div { height: 100%; padding: 10px; width: 75%; border-left: 1px solid black; display: flex; flex-direction: column; }" +
                             ".td1 { width: 50%; text-align: right; font-weight: bold; }" +
                             ".td2 { width: 50%; }" +
-                            ".ticket-table { width: 300px; }" +
+                            ".ticket-table { width: 500px; }" +
                             ".ticket-table tr th { border: 1px solid black; text-align: center; }" +
                             ".ticket-table tr td { border: 1px solid black; text-align: center; }" +
                             ""));
 
             out.println("<h1>Evento " + event.getName() + "</h1>");
             if (event.getSale() > 0) {
-                out.println("<h3>È attivo uno sconto del " + event.getSale() + " per questo evento!</h3>");
+                out.println("<h3>È attivo uno sconto del " + event.getSale() + "% per questo evento!</h3>");
             }
             out.println("<div class='main-div'>" +
                     "<div class='img-div'>" +
@@ -115,10 +115,10 @@ public class EventPage extends HttpServlet {
                         "<table class='ticket-table'>" +
                         "<thead><tr><th>Tipo</th><th>Prezzo</th><th></th></tr>");
                 if (event.getPoltronaTicket() != -1) {
-                    out.println("<tr><td>Poltrona</td><td>" + (event.getSale() > 0 ? ("<p style='text-decoration: wavy overline black;'>" + event.getPoltronaTicket() + "</p> -> " + event.getPoltronaTicket() * (100 - event.getSale()) / 100) : event.getPoltronaTicket()) + " €</td><td><button class='btn btn-success' onclick='addToCart(1)'>+</button></td></tr>");
+                    out.println("<tr><td>Poltrona</td><td><p style='margin: 0px;'>" + (event.getSale() > 0 ? ("<s>" + event.getPoltronaTicket() + "</s> -> " + event.getPoltronaTicket() * (100 - event.getSale()) / 100) : event.getPoltronaTicket()) + " €</p></td><td><button class='btn btn-success' onclick='addToCart(1)'>+</button></td></tr>");
                 }
                 if (event.getPiediTicket() != -1) {
-                    out.println("<tr><td>Piedi</td><td>" + (event.getSale() > 0 ? ("<p style='text-decoration: wavy overline black;'>" + event.getPiediTicket() + "</p> -> " + event.getPiediTicket() * (100 - event.getSale()) / 100) : event.getPiediTicket()) + " €</td><td><button class='btn btn-success' onclick='addToCart(2)'>+</button></td></tr>");
+                    out.println("<tr><td>Piedi</td><td><p style='margin: 0px;'>" + (event.getSale() > 0 ? ("<s>" + event.getPiediTicket() + "</s> -> " + event.getPiediTicket() * (100 - event.getSale()) / 100) : event.getPiediTicket()) + " €</p></td><td><button class='btn btn-success' onclick='addToCart(2)'>+</button></td></tr>");
                 }
                 out.println("</table>");
             }

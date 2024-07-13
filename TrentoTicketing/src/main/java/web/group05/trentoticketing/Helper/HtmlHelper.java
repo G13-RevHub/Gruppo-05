@@ -52,24 +52,23 @@ public class HtmlHelper {
                 "                            <li><a class=\"dropdown-item\" href=\"EventCategoryList?type=0\">Concerti</a></li>\n" +
                 "                            <li><a class=\"dropdown-item\" href=\"EventCategoryList?type=1\">Spettacoli Teatrali</a></li>\n" +
                 "                            <li><a class=\"dropdown-item\" href=\"EventCategoryList?type=2\">Eventi Sportivi</a></li>\n" +
-                "                            <li><a class=\"dropdown-item\" href=\"EventCategoryList?type=3\">Visitr Guidate</a></li>\n" +
+                "                            <li><a class=\"dropdown-item\" href=\"EventCategoryList?type=3\">Visite Guidate</a></li>\n" +
                 "                            <li><a class=\"dropdown-item\" href=\"EventCategoryList?type=4\">Mostre</a></li>\n" +
                 "                            <li><a class=\"dropdown-item\" href=\"EventCategoryList?type=5\">Musei</a></li>\n" +
                 "                        </ul>\n" +
                 "                    </li>\n" +
                 "                    <li class=\"nav-item\"><a class=\"nav-link\"  href=\"Cart\">Carrello (" + items +")</a></li>\n" +
                 (user != null ? (user.getIs_admin() ?
-                "                    <li class=\"nav-item\"><a class=\"nav-link\" href=\"SeeUsers\">Utenti</a></li>\n" +
-                "                    <li class=\"nav-item\"><a class=\"nav-link\" href=\"HandleEvents\">Gestisci Eventi</a></li>\n" +
-                "                    <li class=\"nav-item\"><a class=\"nav-link\" href=\"CreateEvent\">Crea Evento</a></li>"
+                "                    <li class=\"nav-item\"><a class=\"nav-link\" href=\"SeeUsers\">Visualizza Utenti</a></li>\n" +
+                "                    <li class=\"nav-item\"><a class=\"nav-link\" href=\"HandleEvents\">Gestisci Eventi</a></li>\n"
                 :
                 "                    <li class=\"nav-item\"><a class=\"nav-link\" href=\"UserProfile\">Profilo</a></li>\n"
                 ):"") +
                 "                </ul>\n" +
                 "           <div>\n" +
                 (user == null ?
-                "               <a class=\"btn btn-primary\" href=\"account/singup.html\">Sing Up</a>\n" +
-                "               <a class=\"btn btn-primary\" href=\"account/login.html\">Login</a>"
+                "               <a class=\"btn btn-primary\" href=\"singup.html\">Sing Up</a>\n" +
+                "               <a class=\"btn btn-primary\" href=\"login.html\">Login</a>"
                 :
                                 "<a class=\"btn btn-primary\" href=\"Logout\">Logout</a>\n") +
                 "            </div>\n" +

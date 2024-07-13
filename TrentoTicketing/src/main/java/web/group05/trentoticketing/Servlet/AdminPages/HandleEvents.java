@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Date;
 
 
 @WebServlet(name = "HandleEvents", value = "/HandleEvents")
@@ -55,7 +54,6 @@ public class HandleEvents extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
-        User user = session != null ? (User)session.getAttribute("user") : null;
 
         Statement statement = null;
         ResultSet results = null;
@@ -97,7 +95,7 @@ public class HandleEvents extends HttpServlet {
                 out.println("<p>Nessun evento presente al momento</p>");
             } else {
                 out.println("<label for=\"sortCheckbox\">Attiva/Disattiva ordinamento</label><input type=\"checkbox\" id=\"sortCheckbox\">");
-                out.println("<table id=\"eventsTable\"><thead><tr><th>Nome</th><th>Data</th><th>Ora</th><th>Tipo</th><th>Luogo</th><th>Ticket Poltrona</th><th>Ticket In Piedi</th><th>Biglietti Venduti</th><th>Sconto</th><th></th></tr></thead><tbody>");
+                out.println("<table id=\"eventsTable\"><thead><tr><th>Nome</th><th>Data</th><th>Ora</th><th>Tipo</th><th>Luogo</th><th>Ticket Poltrona</th><th>Ticket In Piedi</th><th>Biglietti Venduti</th><th>Sconto</th><th></th><th></th></tr></thead><tbody>");
                 for (Event e: events) {
                     out.println("<tr>");
                     out.println("<td>" + e.getName() + "</td>");
@@ -108,7 +106,8 @@ public class HandleEvents extends HttpServlet {
                     out.println("<td>" + ((e.getPoltronaTicket() == -1) ? "-" : e.getPoltronaTicket() + " €") + "</td>");
                     out.println("<td>" + ((e.getPiediTicket() == -1) ? "-" : e.getPiediTicket() + " €") + "</td>");
                     out.println("<td>" + e.getTickets_sold() + "</td>");
-                    out.println("<td>" + (e.getSale() != 0 ? e.getSale() + "%" : "-") + "</td>");
+                    out.println("<td><input type=\"number\" min=\"0\" max=\"100\" step=\"1\" id=\"sale-" + e.getId() + "\" value=\"" + e.getSale() + "\" /></td>");
+                    out.println("<td><button class=\"btn btn-primary\" onclick=\"setSale(" + e.getId() + ")\">Aggiorna</button></td>");
                     out.println("<td><button class=\"btn btn-danger\" onclick=\"deleteItem(" + e.getId() + ")\">Elimina</button></td>");
                     out.println("</tr>");
                 }
@@ -154,12 +153,20 @@ public class HandleEvents extends HttpServlet {
                         "    </script>");
             }
             out.println("<form id=\"delete-form\" method=\"post\" action=\"DeleteEvent\" style=\"display: none;\">" +
-                    "<input type=\"hidden\" name=\"id\" id=\"item-id\">" +
+                    "<input type=\"hidden\" name=\"id\" id=\"delete-item-id\">" +
+                    "</form>" +
+                    "<form id=\"sale-form\" method=\"post\" action=\"ChangeEventSale\" style=\"display: none;\">" +
+                    "<input type=\"hidden\" name=\"id\" id=\"sale-item-id\">" +
+                    "<input type=\"hidden\" name=\"sale\" id=\"sale\">" +
                     "</form>");
             out.println("<script>" +
                     "function deleteItem(itemId) {" +
-                    "   document.getElementById('item-id').value = itemId;" +
+                    "   document.getElementById('delete-item-id').value = itemId;" +
                     "   document.getElementById('delete-form').submit();}" +
+                    "function setSale(itemId) {" +
+                    "   document.getElementById('sale-item-id').value = itemId;" +
+                    "   document.getElementById('sale').value = document.getElementById(`sale-${itemId}`).value;" +
+                    "   document.getElementById('sale-form').submit();}" +
                     "</script>");
 
             out.println(HtmlHelper.getFooter());

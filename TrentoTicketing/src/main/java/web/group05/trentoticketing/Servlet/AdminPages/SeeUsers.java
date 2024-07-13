@@ -49,7 +49,6 @@ public class SeeUsers extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
-        User user = session != null ? (User)session.getAttribute("user") : null;
 
         Statement statement = null;
         ResultSet results = null;
@@ -80,7 +79,7 @@ public class SeeUsers extends HttpServlet {
                             "thead { font-weight: bold; }" +
                     "        th, td {\n" +
                     "            padding: 10px;\n" +
-                    "            text-align: left;\n" +
+                    "            text-align: center;\n" +
                     "            border: 1px solid #ddd;\n" +
                     "        }"));
 

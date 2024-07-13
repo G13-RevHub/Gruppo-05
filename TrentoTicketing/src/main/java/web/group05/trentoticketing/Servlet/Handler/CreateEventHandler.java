@@ -69,7 +69,7 @@ public class CreateEventHandler extends HttpServlet {
                     "" + request.getParameter("prezzo-poltrona") + ", " +
                     request.getParameter("prezzo-piedi") +
                     ")";
-            System.out.println(query);
+            //System.out.println(query);
             statement.executeUpdate(query);
         } catch (SQLException e) {
             System.out.println("CreateEventHandler.doPost() SQLException: " + e.getMessage(  ));

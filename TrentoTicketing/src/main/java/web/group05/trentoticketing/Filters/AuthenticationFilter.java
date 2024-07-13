@@ -22,8 +22,8 @@ public class AuthenticationFilter implements Filter {
         if (session != null && session.getAttribute("user") != null) {
             chain.doFilter(request, response);
         } else {
-            System.out.println("non può passare auth");
-            request.getRequestDispatcher("account/login.html").forward(request, response);
+            //System.out.println("non può passare auth");
+            request.getRequestDispatcher("login.html").forward(request, response);
         }
     }
 }

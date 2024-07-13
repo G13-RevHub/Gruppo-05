@@ -15,6 +15,8 @@ import java.io.PrintWriter;
 import java.sql.*;
 import java.util.ArrayList;
 
+import static web.group05.trentoticketing.Helper.Help.round;
+
 @WebServlet(name = "ConfirmAndPay", value = "/ConfirmAndPay")
 public class ConfirmAndPay extends HttpServlet {
     Connection connection = null;
@@ -125,7 +127,7 @@ public class ConfirmAndPay extends HttpServlet {
                     "    </script>"));
 
             out.println("<h2>Pagamento avvenuto con successo!</h2>");
-            out.println("<p>Totale pagato: " + (totale - regalo) + " €</p>");
+            out.println("<p>Totale pagato: " + round(totale - regalo, 2) + " €</p>");
             out.println("<p>Torna alla <a href=\"Home\">Home</a></p>");
 
             if (freeTickets.size() > 0) {
@@ -140,10 +142,10 @@ public class ConfirmAndPay extends HttpServlet {
                         "                    Grazie all'offerta 5 al prezzo di 4 non ti sono stati addebitati costi per i seguenti biglietti:\n" +
                         "                    <ul>");
                 for (int[] gift : freeTickets) {
-                    out.println("<li> + " + cart[gift[0]].event.getName() + " x" + gift[1] + "</li>");
+                    out.println("<li>" + cart[gift[0]].event.getName() + " x" + gift[1] + "</li>");
                 }
                 out.println("</ul>" +
-                        "Hai risparmiato " + regalo + " €!" +
+                        "Hai risparmiato " + round(regalo, 2) + " €!" +
                         "                </div>\n" +
                         "                <div class=\"modal-footer\">\n" +
                         "                    <button type=\"button\" class=\"btn btn-primary\" data-bs-dismiss=\"modal\">Ottimo!</button>\n" +
@@ -161,4 +163,6 @@ public class ConfirmAndPay extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request, response);
     }
+
+
 }

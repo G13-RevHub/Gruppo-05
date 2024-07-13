@@ -71,6 +71,7 @@ public class UserProfile extends HttpServlet {
                     "<tr><td class=\"cl1\">Data di Nascita</td><td class=\"cl2\">" + user.getData_nascita() + "</td></tr>" +
                     "<tr><td class=\"cl1\">Email</td><td class=\"cl2\">" + user.getEmail() + "</td></tr>" +
                     "<tr><td class=\"cl1\">Telefono</td><td class=\"cl2\">" + user.getTelefono() + "</td></tr>" +
+                    "<tr><td class=\"cl1\">Biglietti Acquistati</td><td class=\"cl2\">" + user.getBiglietti_aquistati() + "</td></tr>" +
                     "</table>");
             out.println("<center><button class=\"btn btn-danger\" onclick=\"deleteProfile()\">Elimina Profilo</button></center>");
             out.println("<form id=\"delete-form\" method=\"post\" action=\"DeleteUser\" style=\"display: none;\">" +

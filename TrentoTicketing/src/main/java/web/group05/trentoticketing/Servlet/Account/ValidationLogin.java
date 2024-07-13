@@ -68,12 +68,12 @@ public class ValidationLogin extends HttpServlet {
         } catch (SQLException e) {
             System.out.println("ValidationLogin.doPost() SQLException: " + e.getMessage());
             //throw new UnavailableException("ValidationLogin.doPost() SQLException: " + e.getMessage());
-            request.getRequestDispatcher("account/login_failed.html").forward(request, response);
+            request.getRequestDispatcher("login_failed.html").forward(request, response);
         }
 
         if (user == null) { // creadenziali errate
-            //request.getRequestDispatcher("./account/login_failed.html").include(request, response);
-            request.getRequestDispatcher("account/login_failed.html").forward(request, response);
+            //request.getRequestDispatcher("login_failed.html").include(request, response);
+            request.getRequestDispatcher("login_failed.html").forward(request, response);
         } else {
             session = request.getSession(true);
             session.setAttribute("user", user);
