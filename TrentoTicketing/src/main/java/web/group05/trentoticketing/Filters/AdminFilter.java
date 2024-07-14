@@ -3,7 +3,6 @@ package web.group05.trentoticketing.Filters;
 import web.group05.trentoticketing.Data.User;
 
 import javax.servlet.*;
-import javax.servlet.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -24,7 +23,6 @@ public class AdminFilter implements Filter {
         if (((User)session.getAttribute("user")).getIs_admin()) {
             chain.doFilter(request, response);
         } else {
-            //System.out.println("non può passare admin");
             request.getRequestDispatcher("login.html").forward(request, response);
         }
     }

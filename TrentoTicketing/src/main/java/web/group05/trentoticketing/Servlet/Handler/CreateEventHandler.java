@@ -77,7 +77,6 @@ public class CreateEventHandler extends HttpServlet {
         }
 
         request.getRequestDispatcher("HandleEvents").forward(request, response);
-        //response.sendRedirect("HandleEvents");
     }
 
     // non metto la get

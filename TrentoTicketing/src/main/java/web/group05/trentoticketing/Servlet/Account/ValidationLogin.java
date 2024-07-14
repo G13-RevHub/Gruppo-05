@@ -46,14 +46,12 @@ public class ValidationLogin extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // se esiste, invalido la sessione
         HttpSession session = request.getSession(true);
         if (session != null) {
             session.removeAttribute("user");
         }
 
         User user = null;
-        // valido credenziali e ottengo lo user
         Statement statement = null;
         ResultSet results = null;
         try {
@@ -72,16 +70,11 @@ public class ValidationLogin extends HttpServlet {
         }
 
         if (user == null) { // creadenziali errate
-            //request.getRequestDispatcher("login_failed.html").include(request, response);
             request.getRequestDispatcher("login_failed.html").forward(request, response);
         } else {
             session = request.getSession(true);
             session.setAttribute("user", user);
             request.getRequestDispatcher("Home").forward(request, response);
-            // gestione caso cookie disabilitati
-            //String s = response.encodeRedirectURL("Home");
-            //response.sendRedirect(s);
-            //request.getRequestDispatcher(response.encodeRedirectURL("./destination.html")).forward(request, response); // nelle altre pagine
         }
     }
 

@@ -44,12 +44,10 @@ public class SingUp extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // se esiste, invalido la sessione
         HttpSession session = request.getSession(false);
         if (session != null)
             session.removeAttribute("user");
 
-        // creo lo user nel DB
         Statement statement = null;
         try {
             statement = connection.createStatement();
@@ -65,10 +63,9 @@ public class SingUp extends HttpServlet {
             statement.executeUpdate(query);
 
             request.getRequestDispatcher("registration_success.html").include(request, response);
-        } catch (SQLException e) { // gestisco il caso di utente che esiste già?
+        } catch (SQLException e) {
             if (e.getErrorCode() == 30000) { // gestisco il caso di utente che esiste già
                 request.getRequestDispatcher("singup_duplicate_user.html").include(request, response);
-                //response.sendRedirect("singup_duplicate_user.html");
             } else {
                 System.out.println("SingUp.doPost() SQLException: " + e.getMessage(  ));
                 throw new UnavailableException("SingUp.doPost() SQLException: " + e.getMessage(  ));

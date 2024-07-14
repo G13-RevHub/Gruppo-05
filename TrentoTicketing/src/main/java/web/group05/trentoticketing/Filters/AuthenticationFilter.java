@@ -1,7 +1,6 @@
 package web.group05.trentoticketing.Filters;
 
 import javax.servlet.*;
-import javax.servlet.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -22,7 +21,6 @@ public class AuthenticationFilter implements Filter {
         if (session != null && session.getAttribute("user") != null) {
             chain.doFilter(request, response);
         } else {
-            //System.out.println("non può passare auth");
             request.getRequestDispatcher("login.html").forward(request, response);
         }
     }
